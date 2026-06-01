@@ -40,7 +40,7 @@ class CustomerController extends Controller
         ]);
 
         // Create the customer
-        Customer::create($request->all());
+        Customer::create($request->only(['name', 'email', 'phone', 'address']));
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer created successfully!');
@@ -67,7 +67,7 @@ class CustomerController extends Controller
             'address' => 'nullable|string',
         ]);
 
-        $customers->update($request->all());
+        $customers->update($request->only(['name', 'email', 'phone', 'address']));
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer updated successfully!');

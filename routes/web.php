@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProposalController;
@@ -24,7 +25,8 @@ Route::middleware('auth')->group(function () {
 
 //Customers
 Route::resource('customers', CustomerController::class)->middleware('auth');
-Route::patch('customers/{customer}', [CustomerController::class, 'update'])->name('customers.update')->middleware('auth'); // Update customer status (partial update)
+Route::patch('customers/{customer}', [CustomerController::class, 'update'])->name('customers.update')->middleware('auth'); // Update customer stats (partial update)
+Route::patch('customers/{customer}/status', [CustomerController::class, 'changeStatus'])->name('customers.changeStatus');
 
 // Proposals
 Route::resource('proposals', ProposalController::class);

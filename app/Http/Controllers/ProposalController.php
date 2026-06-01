@@ -50,10 +50,10 @@ class ProposalController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Proposal $proposals)
+    public function edit(Proposal $proposal)
     {
         $customers = Customer::all();
-        return view('proposals.edit', compact('proposals', 'customers'));
+        return view('proposals.edit', compact('proposal', 'customers'));
     }
 
     /**
@@ -92,9 +92,9 @@ class ProposalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Proposal $proposals)
+    public function destroy(Proposal $proposal)
     {
-        $proposals->delete();
+        $proposal->delete();
 
         return redirect()->route('proposals.index')
             ->with('success', 'Proposal deleted successfully!');

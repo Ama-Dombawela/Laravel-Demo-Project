@@ -67,7 +67,7 @@
                                         @csrf @method('PATCH')
                                         <button type="submit"
                                                 class="bg-gray-500 text-white px-3 py-1 rounded text-sm">
-                                            {{ $customer->status === 'active' ? 'Deactivate' : 'Activate' }}
+                                            {{ $proposal->status === 'pending' ? 'Approve' : 'Set Pending' }}
                                         </button>
                                     </form>
 

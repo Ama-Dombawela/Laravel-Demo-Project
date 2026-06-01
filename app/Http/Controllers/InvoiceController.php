@@ -77,7 +77,7 @@ class InvoiceController extends Controller
             'due_date'    => 'required|date',
         ]);
 
-        $invoice->update($request->all());
+        $invoice->update([ 'status' => $invoice->status === 'paid' ? 'unpaid' : 'paid' ]);
 
         return redirect()->route('invoices.index')
             ->with('success', 'Invoice updated successfully!');
