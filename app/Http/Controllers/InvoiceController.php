@@ -77,32 +77,44 @@ class InvoiceController extends Controller
             'due_date'    => 'required|date',
         ]);
 
-        $invoice->update([ 'status' => $invoice->status === 'paid' ? 'unpaid' : 'paid' ]);
+        $invoice->update(['status' => $invoice->status === 'paid' ? 'unpaid' : 'paid']);
 
         return redirect()->route('invoices.index')
             ->with('success', 'Invoice updated successfully!');
     }
 
     /**
+     * Change the status of the invoice between paid and unpaid
+     */
+    public function changeStatus(Invoice $invoice)
+    {
+        $invoice->update([
+            'status' => $invoice->status === 'paid' ? 'unpaid' : 'paid'
+        ]);
+
+        return redirect()->route('invoices.index')
+            ->with('success', 'Invoice status updated successfully!');
+    }
+
+    /**
      * Sending the Invoice to the customer via email
      */
 
-    public function sendInvoice(Invoice $invoices)
+    public function sendInvoice(Invoice $invoice)
     {
 
-        // $customer = $invoice->customer;
-        // Mail::to($customer->email)->send(new InvoiceMail($invoice));
+        // Mail::to($invoice->customer->email)->send(new InvoiceMail($invoice));
 
-        // return redirect()->route('invoices.index')
-        //     ->with('success', 'Invoice sent successfully!');
+        return redirect()->route('invoices.index')
+            ->with('success', 'Invoice sending coming soon!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Invoice $invoices)
+    public function destroy(Invoice $invoice)
     {
-        $invoices->delete();
+        $invoice->delete();
 
         return redirect()->route('invoices.index')
             ->with('success', 'Invoice deleted successfully!');
