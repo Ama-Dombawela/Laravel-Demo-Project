@@ -24,8 +24,8 @@ class ProposalController extends Controller
      */
     public function create()
     {
-        $customer = Customer::all();
-        return view('invoices.create', compact('customer'));
+        $customers = Customer::all();
+        return view('proposals.create', compact('customers'));
     }
 
     /**
@@ -50,16 +50,16 @@ class ProposalController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Proposal $proposal)
+    public function edit(Proposal $proposals)
     {
         $customers = Customer::all();
-        return view('proposals.edit', compact('proposal', 'customers'));
+        return view('proposals.edit', compact('proposals', 'customers'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Proposal $proposal)
+    public function update(Request $request, Proposal $proposals)
     {
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
@@ -68,7 +68,7 @@ class ProposalController extends Controller
             'amount'      => 'required|numeric',
         ]);
 
-        $proposal->update($request->all());
+        $proposals->update($request->all());
 
         return redirect()->route('proposals.index')
             ->with('success', 'Proposal updated successfully!');
@@ -88,13 +88,13 @@ class ProposalController extends Controller
             ->with('success', 'Proposal status updated successfully!');
 
     }
-    
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Proposal $proposal)
+    public function destroy(Proposal $proposals)
     {
-        $proposal->delete();
+        $proposals->delete();
 
         return redirect()->route('proposals.index')
             ->with('success', 'Proposal deleted successfully!');

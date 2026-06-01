@@ -13,8 +13,8 @@ class CustomerController extends Controller
     public function index()
     {
         //Show all Customers
-        $customer = Customer::all();
-        return view('customers.index', compact('customer'));
+        $customers = Customer::all();
+        return view('customers.index', compact('customers'));
 
     }
 
@@ -50,24 +50,24 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Customer $customer)
+    public function edit(Customer $customers)
     {
-        return view('customers.edit',compact('customer'));
+        return view('customers.edit',compact('customers'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request, Customer $customers)
     {
          $request->validate([
             'name'    => 'required|string|max:255',
-            'email'   => 'required|email|unique:customers,email,' . $customer->id,
+            'email'   => 'required|email|unique:customers,email,' . $customers->id,
             'phone'   => 'required|string|max:20',
             'address' => 'nullable|string',
         ]);
 
-        $customer->update($request->all());
+        $customers->update($request->all());
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer updated successfully!');
@@ -76,10 +76,10 @@ class CustomerController extends Controller
     /**
      * Updating the status of the customer
      */
-    public function updateStatus(Customer $customer)
+    public function updateStatus(Customer $customers)
     {
-        $customer->update([
-            'status' => $customer->status === 'active' ? 'inactive' : 'active'
+        $customers->update([
+            'status' => $customers->status === 'active' ? 'inactive' : 'active'
         ]);
 
         return redirect()->route('customers.index')
@@ -90,9 +90,9 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Customer $customer)
+    public function destroy(Customer $customers)
     {
-        $customer->delete();
+        $customers->delete();
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer deleted successfully!');

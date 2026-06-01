@@ -17,8 +17,8 @@ class InvoiceController extends Controller
     public function index()
     {
         //Retrieve all the invoices along with their customer data using eager loading
-        $invoice = Invoice::with('customer')->get();
-        return view('invoices.index', compact('invoice'));
+        $invoices = Invoice::with('customer')->get();
+        return view('invoices.index', compact('invoices'));
     }
 
     /**
@@ -26,8 +26,8 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $customer = Customer::all();
-        return view('invoices.create', compact('customer'));
+        $customers = Customer::all();
+        return view('invoices.create', compact('customers'));
     }
 
     /**
@@ -87,7 +87,7 @@ class InvoiceController extends Controller
      * Sending the Invoice to the customer via email
      */
 
-    public function sendInvoice(Invoice $invoice)
+    public function sendInvoice(Invoice $invoices)
     {
 
         // $customer = $invoice->customer;
@@ -100,9 +100,9 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Invoice $invoice)
+    public function destroy(Invoice $invoices)
     {
-        $invoice->delete();
+        $invoices->delete();
 
         return redirect()->route('invoices.index')
             ->with('success', 'Invoice deleted successfully!');
