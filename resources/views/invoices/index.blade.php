@@ -27,7 +27,7 @@
                     <thead class="bg-gray-100">
                         <tr>
                             <th class="p-3 text-left">#</th>
-                            <th class="p-3 text-left">Customer Id</th>
+                            <th class="p-3 text-left">Customer</th>
                             <th class="p-3 text-left">Invoice No</th>
                             <th class="p-3 text-left">Amount</th>
                             <th class="p-3 text-left">Status</th>
@@ -41,8 +41,8 @@
                         @forelse($invoices as $invoice)
                         <tr class="border-t">
                             <td class="p-3">{{ $loop->iteration }}</td>
-                            <td class="p-3">{{ $invoice->customer_id }}</td>
-                            <td class="p-3">{{ $invoice->invoice_no }}</td>
+                            <td class="p-3">{{ $invoice->customer->name }}</td>
+                            <td class="p-3">{{ $invoice->invoice_number }}</td>
                             <td class="p-3">${{ number_format($invoice->amount, 2) }}</td>
                             <td class="p-3">
                                 <span class="px-2 py-1 rounded text-white text-sm
@@ -62,14 +62,6 @@
                                         Edit
                                     </a>
 
-                                    {{-- Status Change --}}
-                                    <form action="{{ route('invoices.changeStatus', $invoice->id) }}" method="POST">
-                                        @csrf @method('PATCH')
-                                        <button type="submit"
-                                            class="bg-gray-500 leading-none text-white px-2 py-2.5 rounded text-sm">
-                                            {{ $invoice->status === 'paid' ? 'Set to Unpaid' : 'Set to Paid' }}
-                                        </button>
-                                    </form>
 
                                     {{-- Delete --}}
                                     <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST"

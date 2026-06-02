@@ -21,21 +21,20 @@
                     <thead class="bg-gray-100">
                         <tr>
                             <th class="p-3 text-left">#</th>
-                            <th class="p-3 text-left">Customer Id</th>
-                            <th class="p-3 text-left">Invoice Id</th>
+                            <th class="p-3 text-left">Customer</th>
+                            <th class="p-3 text-left">Invoice No</th>
                             <th class="p-3 text-left">Stripe Payment Id</th>
                             <th class="p-3 text-left">Amount</th>
                             <th class="p-3 text-left">Status</th>
                             <th class="p-3 text-left">Created At</th>
-                            <th class="p-3 text-left">Updated At</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($transactions as $transaction)
                         <tr class="border-t">
                             <td class="p-3">{{ $loop->iteration }}</td>
-                            <td class="p-3">{{ $transaction->customer_id }}</td>
-                            <td class="p-3">{{ $transaction->invoice_id }}</td>
+                            <td class="p-3">{{ $transaction->customer->name }}</td>
+                            <td class="p-3">{{ $transaction->invoice->invoice_number }}</td>
                             <td class="p-3">{{ $transaction->stripe_payment_id }}</td>
                             <td class="p-3">${{ number_format($transaction->amount, 2) }}</td>
                             <td class="p-3">
@@ -45,7 +44,6 @@
                                 </span>
                             </td>
                             <td class="p-3">{{ $transaction->created_at }}</td>
-                            <td class="p-3">{{ $transaction->updated_at }}</td>
                         </tr>
                         @empty
                             <tr>

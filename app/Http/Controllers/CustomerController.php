@@ -50,24 +50,24 @@ class CustomerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Customer $customers)
+    public function edit(Customer $customer)
     {
-        return view('customers.edit',compact('customers'));
+        return view('customers.edit', compact('customer'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Customer $customers)
+    public function update(Request $request, Customer $customer)
     {
          $request->validate([
             'name'    => 'required|string|max:255',
-            'email'   => 'required|email|unique:customers,email,' . $customers->id,
+            'email'   => 'required|email|unique:customers,email,' . $customer->id,
             'phone'   => 'required|string|max:20',
             'address' => 'nullable|string',
         ]);
 
-        $customers->update($request->only(['name', 'email', 'phone', 'address']));
+        $customer->update($request->only(['name', 'email', 'phone', 'address']));
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer updated successfully!');
@@ -76,10 +76,10 @@ class CustomerController extends Controller
     /**
      * Updating the status of the customer
      */
-    public function updateStatus(Customer $customers)
+    public function changeStatus(Customer $customer)
     {
-        $customers->update([
-            'status' => $customers->status === 'active' ? 'inactive' : 'active'
+        $customer->update([
+            'status' => $customer->status === 'active' ? 'inactive' : 'active'
         ]);
 
         return redirect()->route('customers.index')
@@ -90,9 +90,9 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Customer $customers)
+    public function destroy(Customer $customer)
     {
-        $customers->delete();
+        $customer->delete();
 
         return redirect()->route('customers.index')
             ->with('success', 'Customer deleted successfully!');

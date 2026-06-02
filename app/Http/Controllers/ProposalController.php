@@ -64,14 +64,14 @@ class ProposalController extends Controller
      */
     public function update(Request $request, Proposal $proposals)
     {
-        $request->validate([
+        $validated = $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'title'       => 'required|string|max:255',
             'description' => 'required|string',
             'amount'      => 'required|numeric',
         ]);
 
-        $proposals->update($request->all());
+        $proposals->update($validated);
 
         return redirect()->route('proposals.index')
             ->with('success', 'Proposal updated successfully!');

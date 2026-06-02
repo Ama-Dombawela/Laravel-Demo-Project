@@ -33,7 +33,7 @@
                     <thead class="bg-gray-100">
                         <tr>
                             <th class="p-3 text-left">#</th>
-                            <th class="p-3 text-left">Customer Id</th>
+                            <th class="p-3 text-left">Customer</th>
                             <th class="p-3 text-left">Title</th>
                             <th class="p-3 text-left">Description</th>
                             <th class="p-3 text-left">Amount</th>
@@ -47,7 +47,7 @@
                         @forelse($proposals as $proposal)
                         <tr class="border-t">
                             <td class="p-3">{{ $loop->iteration }}</td>
-                            <td class="p-3">{{ $proposal->customer_id }}</td>
+                            <td class="p-3">{{ $proposal->customer->name }}</td>
                             <td class="p-3">{{ $proposal->title }}</td>
                             <td class="p-3">{{ $proposal->description }}</td>
                             <td class="p-3">${{ number_format($proposal->amount, 2) }}</td>
