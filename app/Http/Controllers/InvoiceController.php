@@ -20,10 +20,21 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //Retrieve all the invoices along with their customer data using eager loading
-        $invoices = Invoice::with('customer')->get();
+        // Retrieve search query for filtering records
+        $search = request('search');
+        
+        // Filters records matching the invoice number or the related customer's name.
+        $invoices = Invoice::with('customer')
+            ->when($search, function ($query, $search) {
+                $query->where('invoice_number', 'like', "%{$search}%")
+                      ->orWhereHas('customer', function($q) use ($search) {
+                          $q->where('name', 'like', "%{$search}%");
+                      });
+            })->paginate(10)->withQueryString();
+
         return Inertia::render('Invoices/Index', [
-            'invoices' => $invoices
+            'invoices' => $invoices,
+            'filters' => request()->only(['search'])
         ]);
     }
 

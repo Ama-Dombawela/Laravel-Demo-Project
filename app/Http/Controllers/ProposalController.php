@@ -17,10 +17,22 @@ class ProposalController extends Controller
      */
     public function index()
     {
-        //Show all the proposals
-        $proposals = Proposal::with('customer')->get();
+        // Retrieve search query for filtering records
+        $search = request('search');
+        
+      
+        // Apply a dynamic where-clause to search by proposal title or associated customer name.
+        $proposals = Proposal::with('customer')
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%")
+                      ->orWhereHas('customer', function($q) use ($search) {
+                          $q->where('name', 'like', "%{$search}%");
+                      });
+            })->paginate(10)->withQueryString();
+
         return \Inertia\Inertia::render('Proposals/Index', [
-            'proposals' => $proposals
+            'proposals' => $proposals,
+            'filters' => request()->only(['search'])
         ]);
     }
 

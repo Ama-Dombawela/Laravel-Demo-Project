@@ -13,10 +13,19 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //Show all Customers
-        $customers = Customer::all();
+        // Retrieve search query for filtering records
+        $search = request('search');
+        
+        // Eager load customer data and apply conditional search filtering,
+        // then paginate the results to 10 per page, preserving query strings.
+        $customers = Customer::when($search, function ($query, $search) {
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+        })->paginate(10)->withQueryString();
+
         return Inertia::render('Customers/Index', [
-            'customers' => $customers
+            'customers' => $customers,
+            'filters' => request()->only(['search'])
         ]);
 
     }
