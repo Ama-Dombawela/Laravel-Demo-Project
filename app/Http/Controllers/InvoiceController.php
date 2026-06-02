@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceMail;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as StripeSession;
+use Inertia\Inertia;
 
 class InvoiceController extends Controller
 {
@@ -21,7 +22,9 @@ class InvoiceController extends Controller
     {
         //Retrieve all the invoices along with their customer data using eager loading
         $invoices = Invoice::with('customer')->get();
-        return view('invoices.index', compact('invoices'));
+        return Inertia::render('Invoices/Index', [
+            'invoices' => $invoices
+        ]);
     }
 
     /**
@@ -30,7 +33,9 @@ class InvoiceController extends Controller
     public function create()
     {
         $customers = Customer::all();
-        return view('invoices.create', compact('customers'));
+        return Inertia::render('Invoices/Create', [
+            'customers' => $customers
+        ]);
     }
 
     /**
@@ -69,7 +74,10 @@ class InvoiceController extends Controller
     public function edit(Invoice $invoice)
     {
         $customers = Customer::all();
-        return view('invoices.edit', compact('invoice', 'customers'));
+        return Inertia::render('Invoices/Edit', [
+            'invoice' => $invoice,
+            'customers' => $customers
+        ]);
     }
 
 
@@ -171,7 +179,7 @@ class InvoiceController extends Controller
         ]);
         }
 
-        return view('invoices.payment-success');
+        return Inertia::render('Invoices/PaymentSuccess');
     }
 
     /**
