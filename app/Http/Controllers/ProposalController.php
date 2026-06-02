@@ -19,7 +19,9 @@ class ProposalController extends Controller
     {
         //Show all the proposals
         $proposals = Proposal::with('customer')->get();
-        return view('proposals.index', compact('proposals'));
+        return \Inertia\Inertia::render('Proposals/Index', [
+            'proposals' => $proposals
+        ]);
     }
 
     /**
@@ -28,7 +30,9 @@ class ProposalController extends Controller
     public function create()
     {
         $customers = Customer::all();
-        return view('proposals.create', compact('customers'));
+        return \Inertia\Inertia::render('Proposals/Create', [
+            'customers' => $customers
+        ]);
     }
 
     /**
@@ -39,9 +43,9 @@ class ProposalController extends Controller
         //Validate the form inputs
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
-            'title'       => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'amount'      => 'required|numeric',
+            'amount' => 'required|numeric',
         ]);
 
         Proposal::create($request->all());
@@ -56,7 +60,10 @@ class ProposalController extends Controller
     public function edit(Proposal $proposal)
     {
         $customers = Customer::all();
-        return view('proposals.edit', compact('proposal', 'customers'));
+        return \Inertia\Inertia::render('Proposals/Edit', [
+            'proposal' => $proposal,
+            'customers' => $customers
+        ]);
     }
 
     /**
@@ -66,9 +73,9 @@ class ProposalController extends Controller
     {
         $validated = $request->validate([
             'customer_id' => 'required|exists:customers,id',
-            'title'       => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'amount'      => 'required|numeric',
+            'amount' => 'required|numeric',
         ]);
 
         $proposals->update($validated);
@@ -94,11 +101,11 @@ class ProposalController extends Controller
         // Auto-create an invoice when proposal is approved
         if ($validated['status'] === 'approved') {
             $invoice = Invoice::create([
-                'customer_id'    => $proposal->customer_id,
+                'customer_id' => $proposal->customer_id,
                 'invoice_number' => 'INV-' . strtoupper(Str::random(8)),
-                'amount'         => $proposal->amount,
-                'due_date'       => now()->addDays(30), // set the due date for 30 days
-                'status'         => 'unpaid',
+                'amount' => $proposal->amount,
+                'due_date' => now()->addDays(30), // set the due date for 30 days
+                'status' => 'unpaid',
             ]);
 
             // Send the invoice email to the customer
