@@ -14,8 +14,10 @@ class TransactionController extends Controller
     {
         //Retrieve all transactions along with their related customer and invoice data using eager loading
         $transactions = Transaction::with('customer', 'invoice')->get();
-        return view('transactions.index', compact('transactions'));
+        return \Inertia\Inertia::render('Transactions/Index', [
+            'transactions' => $transactions
+        ]);
     }
 
-    
+
 }
