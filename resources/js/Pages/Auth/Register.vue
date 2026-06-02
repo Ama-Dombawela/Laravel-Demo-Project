@@ -20,84 +20,105 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
-        <form @submit.prevent="submit">
+        <div class="mb-8 text-center">
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Create an account</h1>
+            <p class="mt-2 text-sm text-slate-500">Sign up to get started with your CRM.</p>
+        </div>
+
+        <form @submit.prevent="submit" class="space-y-5">
             <div>
-                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                <input
-                    id="name"
-                    type="text"
-                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                    v-model="form.name"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-                <div v-if="form.errors.name" class="mt-2 text-sm text-red-600">
+                <label for="name" class="block text-sm font-medium text-slate-700">Full name</label>
+                <div class="mt-1 relative">
+                    <input
+                        id="name"
+                        type="text"
+                        class="block w-full rounded-xl border-slate-200 bg-slate-50/50 px-4 py-3 text-sm shadow-sm transition-colors focus:border-indigo-500 focus:bg-white focus:ring-indigo-500"
+                        placeholder="John Doe"
+                        v-model="form.name"
+                        required
+                        autofocus
+                        autocomplete="name"
+                    />
+                </div>
+                <div v-if="form.errors.name" class="mt-2 text-xs text-rose-600">
                     {{ form.errors.name }}
                 </div>
             </div>
 
-            <div class="mt-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
-                <div v-if="form.errors.email" class="mt-2 text-sm text-red-600">
+            <div>
+                <label for="email" class="block text-sm font-medium text-slate-700">Email address</label>
+                <div class="mt-1 relative">
+                    <input
+                        id="email"
+                        type="email"
+                        class="block w-full rounded-xl border-slate-200 bg-slate-50/50 px-4 py-3 text-sm shadow-sm transition-colors focus:border-indigo-500 focus:bg-white focus:ring-indigo-500"
+                        placeholder="you@example.com"
+                        v-model="form.email"
+                        required
+                        autocomplete="username"
+                    />
+                </div>
+                <div v-if="form.errors.email" class="mt-2 text-xs text-rose-600">
                     {{ form.errors.email }}
                 </div>
             </div>
 
-            <div class="mt-4">
-                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                <input
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                    v-model="form.password"
-                    required
-                    autocomplete="new-password"
-                />
-                <div v-if="form.errors.password" class="mt-2 text-sm text-red-600">
+            <div>
+                <label for="password" class="block text-sm font-medium text-slate-700">Password</label>
+                <div class="mt-1 relative">
+                    <input
+                        id="password"
+                        type="password"
+                        class="block w-full rounded-xl border-slate-200 bg-slate-50/50 px-4 py-3 text-sm shadow-sm transition-colors focus:border-indigo-500 focus:bg-white focus:ring-indigo-500"
+                        placeholder="••••••••"
+                        v-model="form.password"
+                        required
+                        autocomplete="new-password"
+                    />
+                </div>
+                <div v-if="form.errors.password" class="mt-2 text-xs text-rose-600">
                     {{ form.errors.password }}
                 </div>
             </div>
 
-            <div class="mt-4">
-                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                <input
-                    id="password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                    v-model="form.password_confirmation"
-                    required
-                    autocomplete="new-password"
-                />
-                <div v-if="form.errors.password_confirmation" class="mt-2 text-sm text-red-600">
+            <div>
+                <label for="password_confirmation" class="block text-sm font-medium text-slate-700">Confirm password</label>
+                <div class="mt-1 relative">
+                    <input
+                        id="password_confirmation"
+                        type="password"
+                        class="block w-full rounded-xl border-slate-200 bg-slate-50/50 px-4 py-3 text-sm shadow-sm transition-colors focus:border-indigo-500 focus:bg-white focus:ring-indigo-500"
+                        placeholder="••••••••"
+                        v-model="form.password_confirmation"
+                        required
+                        autocomplete="new-password"
+                    />
+                </div>
+                <div v-if="form.errors.password_confirmation" class="mt-2 text-xs text-rose-600">
                     {{ form.errors.password_confirmation }}
                 </div>
             </div>
 
-            <div class="mt-6 flex items-center justify-end">
-                <Link
-                    href="/login"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Already registered?
-                </Link>
-
+            <div class="pt-2">
                 <button
                     type="submit"
-                    class="ms-4 inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900"
-                    :class="{ 'opacity-25': form.processing }"
+                    class="btn-primary w-full justify-center py-3 text-sm"
+                    :class="{ 'opacity-70 cursor-not-allowed': form.processing }"
                     :disabled="form.processing"
                 >
-                    Register
+                    <span v-if="form.processing">Creating account...</span>
+                    <span v-else>Create account</span>
                 </button>
+            </div>
+            
+            <div class="mt-6 text-center text-sm text-slate-500">
+                Already registered?
+                <Link
+                    href="/login"
+                    class="font-medium text-indigo-600 transition-colors hover:text-indigo-500"
+                >
+                    Log in here
+                </Link>
             </div>
         </form>
     </GuestLayout>

@@ -17,31 +17,34 @@ const submit = () => {
     <GuestLayout>
         <Head title="Confirm Password" />
 
-        <div class="mb-4 text-sm text-gray-600">
-            This is a secure area of the application. Please confirm your password before continuing.
+        <div class="mb-6 text-center">
+            <h2 class="text-2xl font-bold text-slate-900">Confirm Password</h2>
+            <p class="mt-2 text-sm leading-6 text-slate-500">
+                This is a secure area of the application. Please confirm your password before continuing.
+            </p>
         </div>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" class="space-y-5">
             <div>
-                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <label for="password" class="form-label">Password</label>
                 <input
                     id="password"
                     type="password"
-                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                    class="form-input"
                     v-model="form.password"
                     required
                     autocomplete="current-password"
                     autofocus
                 />
-                <div v-if="form.errors.password" class="mt-2 text-sm text-red-600">
+                <div v-if="form.errors.password" class="input-error">
                     {{ form.errors.password }}
                 </div>
             </div>
 
-            <div class="mt-4 flex justify-end">
+            <div class="flex justify-end">
                 <button
                     type="submit"
-                    class="inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900"
+                    class="btn-primary"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >

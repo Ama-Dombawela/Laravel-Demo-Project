@@ -31,57 +31,62 @@ const submit = () => {
     <GuestLayout>
         <Head title="Reset Password" />
 
-        <form @submit.prevent="submit">
+        <div class="mb-6 text-center">
+            <h2 class="text-2xl font-bold text-slate-900">Reset Password</h2>
+            <p class="mt-2 text-sm leading-6 text-slate-500">Choose a new password to regain access to your account.</p>
+        </div>
+
+        <form @submit.prevent="submit" class="space-y-5">
             <div>
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <label for="email" class="form-label">Email</label>
                 <input
                     id="email"
                     type="email"
-                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                    class="form-input"
                     v-model="form.email"
                     required
                     autofocus
                     autocomplete="username"
                 />
-                <div v-if="form.errors.email" class="mt-2 text-sm text-red-600">
+                <div v-if="form.errors.email" class="input-error">
                     {{ form.errors.email }}
                 </div>
             </div>
 
-            <div class="mt-4">
-                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <div>
+                <label for="password" class="form-label">Password</label>
                 <input
                     id="password"
                     type="password"
-                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                    class="form-input"
                     v-model="form.password"
                     required
                     autocomplete="new-password"
                 />
-                <div v-if="form.errors.password" class="mt-2 text-sm text-red-600">
+                <div v-if="form.errors.password" class="input-error">
                     {{ form.errors.password }}
                 </div>
             </div>
 
-            <div class="mt-4">
-                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <div>
+                <label for="password_confirmation" class="form-label">Confirm Password</label>
                 <input
                     id="password_confirmation"
                     type="password"
-                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                    class="form-input"
                     v-model="form.password_confirmation"
                     required
                     autocomplete="new-password"
                 />
-                <div v-if="form.errors.password_confirmation" class="mt-2 text-sm text-red-600">
+                <div v-if="form.errors.password_confirmation" class="input-error">
                     {{ form.errors.password_confirmation }}
                 </div>
             </div>
 
-            <div class="mt-4 flex items-center justify-end">
+            <div class="flex items-center justify-end">
                 <button
                     type="submit"
-                    class="inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900"
+                    class="btn-primary"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
