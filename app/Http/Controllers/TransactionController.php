@@ -13,7 +13,7 @@ class TransactionController extends Controller
     public function index()
     {
         //Retrieve all transactions along with their related customer and invoice data using eager loading
-        $transactions = Transaction::with('customers', 'invoices')->get();
+        $transactions = Transaction::with('customer', 'invoice')->get();
         return view('transactions.index', compact('transactions'));
     }
 

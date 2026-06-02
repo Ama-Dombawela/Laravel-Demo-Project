@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use App\Models\Customer;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
@@ -156,8 +157,18 @@ class InvoiceController extends Controller
         $session = StripeSession::retrieve($request->session_id);
 
         if ($session->payment_status === 'paid') {
-            Invoice::where('id', $request->invoice_id)
-                ->update(['status' => 'paid']);
+            
+        $invoice =Invoice::find($request->invoice_id);
+
+        $invoice->update(['status' => 'paid']);
+
+        Transaction::create([
+            'customer_id' => $invoice->customer_id,
+            'invoice_id'  => $invoice->id,
+            'amount'      => $invoice->amount,
+            'status'      => 'success',
+            'stripe_payment_id' => $session->payment_intent,
+        ]);
         }
 
         return view('invoices.payment-success');

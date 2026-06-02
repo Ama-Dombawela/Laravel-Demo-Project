@@ -16,6 +16,12 @@
                     </div>
                 @endif
 
+                @if ($errors->any())
+                    <div class="bg-red-100 text-red-800 p-3 rounded mb-4">
+                        {{ $errors->first() }}
+                    </div>
+                @endif
+
                 {{-- Add Proposal Button --}}
                 <a href="{{ route('proposals.create') }}"
                    class="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block">
@@ -46,8 +52,14 @@
                             <td class="p-3">{{ $proposal->description }}</td>
                             <td class="p-3">${{ number_format($proposal->amount, 2) }}</td>
                             <td class="p-3">
-                                <span class="px-2 py-1 rounded text-white text-sm
-                                    {{ $proposal->status === 'accepted' ? 'bg-green-500' : 'bg-red-500' }}">
+                                <span class="inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold ring-1 ring-inset
+                                    {{
+                                        $proposal->status === 'approved'
+                                            ? 'bg-green-100 text-green-700 ring-green-600/20'
+                                            : ($proposal->status === 'pending'
+                                                ? 'bg-yellow-100 text-yellow-800 ring-yellow-600/20'
+                                                : 'bg-red-100 text-red-700 ring-red-600/20')
+                                    }}">
                                     {{ ucfirst($proposal->status) }}
                                 </span>
                             </td>
@@ -58,16 +70,26 @@
 
                                     {{-- Edit --}}
                                     <a href="{{ route('proposals.edit', $proposal->id) }}"
-                                       class="bg-yellow-500 text-white px-3 py-1 rounded text-sm">
+                                       class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">
                                         Edit
                                     </a>
 
                                     {{-- Status Change --}}
-                                    <form action="{{ route('proposals.changeStatus', $proposal->id) }}" method="POST">
-                                        @csrf @method('PATCH')
+                                    <form action="{{ route('proposals.changeStatus', $proposal->id) }}" method="POST" class="flex items-center gap-2">
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <select name="status"
+                                                class="rounded border-gray-300 text-xs focus:border-indigo-500 focus:ring-indigo-500">
+
+                                                <option value="pending" @selected($proposal->status === 'pending')>Pending</option>
+                                                <option value="approved" @selected($proposal->status === 'approved')>Approved</option>
+                                                <option value="rejected" @selected($proposal->status === 'rejected')>Rejected</option>
+                                        </select>
+
                                         <button type="submit"
-                                                class="bg-gray-500 text-white px-3 py-1 rounded text-sm">
-                                            {{ $proposal->status === 'pending' ? 'Approve' : 'Set Pending' }}
+                                                class="bg-slate-700 text-white px-2 py-1 rounded text-xs hover:bg-slate-800 transition">
+                                            Save
                                         </button>
                                     </form>
 
@@ -76,7 +98,7 @@
                                           onsubmit="return confirm('Are you sure you want to delete this proposal?')">
                                         @csrf @method('DELETE')
                                         <button type="submit"
-                                                class="bg-red-500 text-white px-3 py-1 rounded text-sm">
+                                                class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition">
                                             Delete
                                         </button>
                                     </form>

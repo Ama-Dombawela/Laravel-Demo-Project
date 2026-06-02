@@ -44,6 +44,8 @@
                                     {{ ucfirst($transaction->status) }}
                                 </span>
                             </td>
+                            <td class="p-3">{{ $transaction->created_at }}</td>
+                            <td class="p-3">{{ $transaction->updated_at }}</td>
                         </tr>
                         @empty
                             <tr>

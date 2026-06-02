@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use App\Models\Customer;
 use App\Models\Proposal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceMail;
 
 class ProposalController extends Controller
 {
@@ -16,7 +20,6 @@ class ProposalController extends Controller
         //Show all the proposals
         $proposals = Proposal::with('customer')->get();
         return view('proposals.index', compact('proposals'));
-
     }
 
     /**
@@ -80,13 +83,30 @@ class ProposalController extends Controller
      */
     public function changeStatus(Request $request, Proposal $proposal)
     {
-        $proposal->update([
-            'status' => $request->status,
+        $validated = $request->validate([
+            'status' => 'required|in:pending,approved,rejected',
         ]);
+
+        $proposal->update([
+            'status' => $validated['status'],
+        ]);
+
+        // Auto-create an invoice when proposal is approved
+        if ($validated['status'] === 'approved') {
+            $invoice = Invoice::create([
+                'customer_id'    => $proposal->customer_id,
+                'invoice_number' => 'INV-' . strtoupper(Str::random(8)),
+                'amount'         => $proposal->amount,
+                'due_date'       => now()->addDays(30), // set the due date for 30 days
+                'status'         => 'unpaid',
+            ]);
+
+            // Send the invoice email to the customer
+            Mail::to($proposal->customer->email)->send(new InvoiceMail($invoice));
+        }
 
         return redirect()->route('proposals.index')
             ->with('success', 'Proposal status updated successfully!');
-
     }
 
     /**

@@ -66,8 +66,8 @@
                                     <form action="{{ route('invoices.changeStatus', $invoice->id) }}" method="POST">
                                         @csrf @method('PATCH')
                                         <button type="submit"
-                                            class="bg-gray-500 text-white px-3 py-1 rounded text-sm">
-                                            {{ $invoice->status === 'paid' ? 'Mark as Unpaid' : 'Mark as Paid' }}
+                                            class="bg-gray-500 leading-none text-white px-2 py-2.5 rounded text-sm">
+                                            {{ $invoice->status === 'paid' ? 'Set to Unpaid' : 'Set to Paid' }}
                                         </button>
                                     </form>
 
@@ -93,13 +93,6 @@
                         @endforelse
                     </tbody>
                 </table>
-
-                {{-- Send Invoice button (admin) --}}
-                <form action="{{ route('invoices.send', $invoice) }}" method="POST" style="display:inline">
-                    @csrf
-                    <button type="submit" class="btn btn-primary btn-sm">Send Invoice</button>
-                </form>
-
             </div>
         </div>
     </div>
