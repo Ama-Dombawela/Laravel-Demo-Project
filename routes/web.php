@@ -33,9 +33,11 @@ Route::resource('proposals', ProposalController::class);
 Route::patch('proposals/{proposal}/status', [ProposalController::class, 'changeStatus'])->name('proposals.changeStatus'); // Custom route to change only proposal status (not full update)
 
 // Invoices
+Route::get('invoices/payment/sucesss', [InvoiceController::class, 'paymentSuccess'])->name('invoices.payment.success');
 Route::resource('invoices', InvoiceController::class);
 Route::patch('invoices/{invoice}/status', [InvoiceController::class, 'changeStatus'])->name('invoices.changeStatus');
 Route::post('invoices/{invoice}/send', [InvoiceController::class, 'sendInvoice'])->name('invoices.send'); // Send invoice via email
+Route::get('invoices/{invoice}/pay', [InvoiceController::class, 'createCheckout'])->name('invoices.pay'); // Pay invoice route
 
 // Transactions
 Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');

@@ -6,8 +6,10 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-// use Illuminate\Support\Facades\Mail;
-// use App\Mail\InvoiceMail;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceMail;
+use Stripe\Stripe;
+use Stripe\Checkout\Session as StripeSession;
 
 class InvoiceController extends Controller
 {
@@ -43,13 +45,17 @@ class InvoiceController extends Controller
         ]);
 
         // Auto generate invoice number
-        Invoice::create([
+        $invoice = Invoice::create([
             'customer_id'    => $request->customer_id,
             'invoice_number' => 'INV-' . strtoupper(Str::random(8)),
             'amount'         => $request->amount,
             'due_date'       => $request->due_date,
-            'status'         => 'unpaid',
+            'status'         => 'sent', // Set default status to 'sent' when creating an invoice
         ]);
+
+
+    // Automatically send email to customer with Pay Now button
+    Mail::to($invoice->customer->email)->send(new InvoiceMail($invoice));
 
         return redirect()->route('invoices.index')
             ->with('success', 'Invoice created successfully!');
@@ -103,10 +109,58 @@ class InvoiceController extends Controller
     public function sendInvoice(Invoice $invoice)
     {
 
-        // Mail::to($invoice->customer->email)->send(new InvoiceMail($invoice));
+        Mail::to($invoice->customer->email)->send(new InvoiceMail($invoice));
 
         return redirect()->route('invoices.index')
             ->with('success', 'Invoice sending coming soon!');
+    }
+
+    /**
+     * Create a Stripe checkout session and redirect the Stripe checkout page to pay the invoice amount
+     * This is triggered when the customer clicks "Pay Now" in the email
+     */
+    public function createCheckout(Invoice $invoice)
+    {
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        //Create a Stripe checkout Session with the invoice detials
+        $session = StripeSession::create([
+            'payment_method_types' => ['card'], //Card payments only
+            'line_items' => [[
+                'price_data' => [
+                    'currency'     => 'usd',
+                    'product_data' => ['name' => 'Invoice #' . $invoice->invoice_number],
+                    'unit_amount'  => (int)($invoice->amount * 100),
+                ],
+                'quantity' => 1,
+            ]],
+            'mode'        => 'payment', //One-time-payemnt
+            // After successful payment, redirect to success page with session ID and invoice ID 
+            'success_url' => route('invoices.payment.success') . '?session_id={CHECKOUT_SESSION_ID}&invoice_id=' . $invoice->id,
+            'cancel_url'  => route('invoices.index'),//If cutmer cancels ,redirect back to invoice list
+        ]);
+
+        // Redirect the customer to the Stripe hosted payment page
+        return redirect($session->url);
+    }
+
+    /**
+     * Handle the successful payment return from Stripe
+     * Automatically updates the invoice status to 'paid'
+     */
+    public function paymentSuccess(Request $request)
+    {
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        // Retrieve the Stripe session using the session_id from the URL
+        $session = StripeSession::retrieve($request->session_id);
+
+        if ($session->payment_status === 'paid') {
+            Invoice::where('id', $request->invoice_id)
+                ->update(['status' => 'paid']);
+        }
+
+        return view('invoices.payment-success');
     }
 
     /**

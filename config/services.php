@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    // Stripe API credentials loaded from the .env file
+    'stripe'=> [
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+    ]
+
 ];
