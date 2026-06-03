@@ -1,6 +1,6 @@
 # Modern Laravel CRM Web Application
 
-CRM Pro is a modern, full-stack Customer Relationship Management (CRM) platform designed to help businesses efficiently manage customers, track proposals, generate invoices, monitor payments, and view transaction histories through a centralized dashboard.
+CRM WEB is a modern, full-stack Customer Relationship Management (CRM) platform designed to help businesses efficiently manage customers, track proposals, generate invoices, monitor payments, and view transaction histories through a centralized dashboard.
 
 Built with Laravel, Vue.js, and MySQL, the system provides a seamless and responsive user experience, featuring interactive dashboards, real-time business insights, secure authentication, and a premium, modern interface. The platform streamlines customer relationship management while giving businesses complete visibility into their financial activities and transactions.
 
@@ -37,7 +37,7 @@ Before you begin, ensure you have the following installed on your local machine:
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Ama-Dombawela/Laravel-Demo-Project.git
    cd crm-project
    ```
 
