@@ -151,7 +151,7 @@ const deleteProposal = () => {
                             <tr>
                                 <th class="px-6 py-4 text-left">#</th>
                                 <th class="px-6 py-4 text-left">Customer</th>
-                                <th class="px-6 py-4 text-left">Details</th>
+                                <th class="px-6 py-4 text-left">Title</th>
                                 <th class="px-6 py-4 text-left">Amount</th>
                                 <th class="px-6 py-4 text-left">Status</th>
                                 <th class="px-6 py-4 text-left">Date</th>

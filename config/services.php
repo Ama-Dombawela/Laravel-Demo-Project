@@ -39,6 +39,12 @@ return [
     'stripe'=> [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
-    ]
+    ],
+
+    'mailtrap-sdk' => [
+        'host' => env('MAILTRAP_HOST', 'send.api.mailtrap.io'),
+        'apiKey' => env('MAILTRAP_TOKEN', env('MAILTRAP_API_KEY')),
+        'inboxId' => env('MAILTRAP_INBOX_ID'),
+    ],
 
 ];

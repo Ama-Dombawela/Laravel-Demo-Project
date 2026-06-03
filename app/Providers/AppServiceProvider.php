@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-         URL::forceScheme('https');   // Prevents mixed content errors where assets load over HTTP instead of HTTP
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');   // Prevents mixed content errors where assets load over HTTP instead of HTTPS
+        }
     }
 }
