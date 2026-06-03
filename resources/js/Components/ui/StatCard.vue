@@ -23,11 +23,11 @@ const props = defineProps({
 
 const toneClasses = computed(() => {
     const palette = {
-        indigo: 'from-indigo-500 to-violet-600 text-indigo-600 bg-indigo-50 ring-indigo-100',
-        emerald: 'from-emerald-500 to-teal-600 text-emerald-600 bg-emerald-50 ring-emerald-100',
-        amber: 'from-amber-500 to-orange-600 text-amber-600 bg-amber-50 ring-amber-100',
-        rose: 'from-rose-500 to-pink-600 text-rose-600 bg-rose-50 ring-rose-100',
-        sky: 'from-sky-500 to-cyan-600 text-sky-600 bg-sky-50 ring-sky-100',
+        indigo: 'from-indigo-500 to-violet-600 text-black bg-indigo-50 ring-indigo-100',
+        emerald: 'from-emerald-500 to-teal-600 text-black bg-emerald-50 ring-emerald-100',
+        amber: 'from-amber-500 to-orange-600 text-black bg-amber-50 ring-amber-100',
+        rose: 'from-rose-500 to-pink-600 text-black bg-rose-50 ring-rose-100',
+        sky: 'from-sky-500 to-cyan-600 text-black bg-sky-50 ring-sky-100',
     };
 
     return palette[props.tone] ?? palette.indigo;

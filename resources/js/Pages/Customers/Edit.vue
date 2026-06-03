@@ -26,12 +26,16 @@ const submit = () => {
 
     <DashboardLayout>
         <template #header>
+            <div class="mb-4 flex justify-start">
+                <Link href="/customers" class="nav-pill bg-white text-slate-700 shadow-sm border border-slate-200 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 transition-colors">
+                    <span aria-hidden="true">&larr;</span>
+                    <span class="ml-1">Back</span>
+                </Link>
+            </div>
             <PageHeader
                 eyebrow="Customers"
                 title="Edit Customer"
                 description="Update the customer's contact information or billing address."
-                backHref="/customers"
-                backLabel="Back to directory"
             />
         </template>
 

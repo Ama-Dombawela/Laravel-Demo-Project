@@ -1,17 +1,25 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
 const showProfileDropdown = ref(false);
 const page = usePage();
+
+const bgClass = computed(() => {
+    if (page.url.startsWith('/customers')) return 'bg-sky-50';
+    if (page.url.startsWith('/proposals')) return 'bg-violet-50';
+    if (page.url.startsWith('/invoices')) return 'bg-emerald-50';
+    if (page.url.startsWith('/transactions')) return 'bg-amber-50';
+    return 'bg-purple-50';
+});
 </script>
 
 <template>
-    <div class="page-shell min-h-screen bg-slate-50">
+    <div :class="['page-shell min-h-screen flex flex-col', bgClass]">
         <nav class="sticky top-0 z-50 border-b border-white/60 bg-white/80 shadow-sm backdrop-blur-xl transition-all duration-300">
             <!-- Primary Navigation Menu -->
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto px-4 sm:px-8 lg:px-12">
                 <div class="flex h-16 justify-between">
                     <div class="flex">
                         <!-- Logo -->
@@ -23,19 +31,19 @@ const page = usePage();
 
                         <!-- Navigation Links -->
                         <div class="hidden space-x-2 sm:-my-px sm:ms-10 sm:flex">
-                            <Link href="/dashboard" class="nav-pill my-3" :class="[ $page.url === '/dashboard' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 'text-slate-600 hover:bg-indigo-50/80 hover:text-indigo-700' ]">
+                            <Link href="/dashboard" class="nav-pill my-3" :class="[ $page.url === '/dashboard' ? 'bg-white text-slate-900 shadow-md ring-1 ring-slate-200/80' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' ]">
                                 Dashboard
                             </Link>
-                            <Link href="/customers" class="nav-pill my-3" :class="[ $page.url.startsWith('/customers') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 'text-slate-600 hover:bg-indigo-50/80 hover:text-indigo-700' ]">
+                            <Link href="/customers" class="nav-pill my-3" :class="[ $page.url.startsWith('/customers') ? 'bg-white text-slate-900 shadow-md ring-1 ring-slate-200/80' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' ]">
                                 Customers
                             </Link>
-                            <Link href="/proposals" class="nav-pill my-3" :class="[ $page.url.startsWith('/proposals') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 'text-slate-600 hover:bg-indigo-50/80 hover:text-indigo-700' ]">
+                            <Link href="/proposals" class="nav-pill my-3" :class="[ $page.url.startsWith('/proposals') ? 'bg-white text-slate-900 shadow-md ring-1 ring-slate-200/80' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' ]">
                                 Proposals
                             </Link>
-                            <Link href="/invoices" class="nav-pill my-3" :class="[ $page.url.startsWith('/invoices') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 'text-slate-600 hover:bg-indigo-50/80 hover:text-indigo-700' ]">
+                            <Link href="/invoices" class="nav-pill my-3" :class="[ $page.url.startsWith('/invoices') ? 'bg-white text-slate-900 shadow-md ring-1 ring-slate-200/80' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' ]">
                                 Invoices
                             </Link>
-                            <Link href="/transactions" class="nav-pill my-3" :class="[ $page.url.startsWith('/transactions') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 'text-slate-600 hover:bg-indigo-50/80 hover:text-indigo-700' ]">
+                            <Link href="/transactions" class="nav-pill my-3" :class="[ $page.url.startsWith('/transactions') ? 'bg-white text-slate-900 shadow-md ring-1 ring-slate-200/80' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' ]">
                                 Transactions
                             </Link>
                         </div>
@@ -103,13 +111,13 @@ const page = usePage();
             >
                 <div v-show="showingNavigationDropdown" class="sm:hidden bg-white/95 backdrop-blur-xl border-t border-slate-100 shadow-xl absolute w-full z-50">
                     <div class="space-y-1 px-3 py-3">
-                        <Link href="/dashboard" class="block w-full rounded-xl px-4 py-3 text-left text-base font-medium transition duration-150 ease-in-out" :class="[ $page.url === '/dashboard' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200/50' : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700' ]">
+                        <Link href="/dashboard" class="block w-full rounded-xl px-4 py-3 text-left text-base font-medium transition duration-150 ease-in-out" :class="[ $page.url === '/dashboard' ? 'bg-white text-slate-900 shadow-md ring-1 ring-slate-200/80' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' ]">
                             Dashboard
                         </Link>
-                        <Link href="/customers" class="block w-full rounded-xl px-4 py-3 text-left text-base font-medium transition duration-150 ease-in-out" :class="[ $page.url.startsWith('/customers') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200/50' : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700' ]">Customers</Link>
-                        <Link href="/proposals" class="block w-full rounded-xl px-4 py-3 text-left text-base font-medium transition duration-150 ease-in-out" :class="[ $page.url.startsWith('/proposals') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200/50' : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700' ]">Proposals</Link>
-                        <Link href="/invoices" class="block w-full rounded-xl px-4 py-3 text-left text-base font-medium transition duration-150 ease-in-out" :class="[ $page.url.startsWith('/invoices') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200/50' : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700' ]">Invoices</Link>
-                        <Link href="/transactions" class="block w-full rounded-xl px-4 py-3 text-left text-base font-medium transition duration-150 ease-in-out" :class="[ $page.url.startsWith('/transactions') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200/50' : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700' ]">Transactions</Link>
+                        <Link href="/customers" class="block w-full rounded-xl px-4 py-3 text-left text-base font-medium transition duration-150 ease-in-out" :class="[ $page.url.startsWith('/customers') ? 'bg-white text-slate-900 shadow-md ring-1 ring-slate-200/80' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' ]">Customers</Link>
+                        <Link href="/proposals" class="block w-full rounded-xl px-4 py-3 text-left text-base font-medium transition duration-150 ease-in-out" :class="[ $page.url.startsWith('/proposals') ? 'bg-white text-slate-900 shadow-md ring-1 ring-slate-200/80' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' ]">Proposals</Link>
+                        <Link href="/invoices" class="block w-full rounded-xl px-4 py-3 text-left text-base font-medium transition duration-150 ease-in-out" :class="[ $page.url.startsWith('/invoices') ? 'bg-white text-slate-900 shadow-md ring-1 ring-slate-200/80' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' ]">Invoices</Link>
+                        <Link href="/transactions" class="block w-full rounded-xl px-4 py-3 text-left text-base font-medium transition duration-150 ease-in-out" :class="[ $page.url.startsWith('/transactions') ? 'bg-white text-slate-900 shadow-md ring-1 ring-slate-200/80' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' ]">Transactions</Link>
                     </div>
 
                     <!-- Responsive Settings Options -->

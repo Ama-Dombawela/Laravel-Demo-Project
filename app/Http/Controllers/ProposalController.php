@@ -67,6 +67,17 @@ class ProposalController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show(Proposal $proposal)
+    {
+        $proposal->load('customer');
+        return \Inertia\Inertia::render('Proposals/Show', [
+            'proposal' => $proposal
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Proposal $proposal)
@@ -81,7 +92,7 @@ class ProposalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Proposal $proposals)
+    public function update(Request $request, Proposal $proposal)
     {
         $validated = $request->validate([
             'customer_id' => 'required|exists:customers,id',
@@ -90,7 +101,7 @@ class ProposalController extends Controller
             'amount' => 'required|numeric',
         ]);
 
-        $proposals->update($validated);
+        $proposal->update($validated);
 
         return redirect()->route('proposals.index')
             ->with('success', 'Proposal updated successfully!');

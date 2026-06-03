@@ -35,12 +35,16 @@ const submit = () => {
 
     <DashboardLayout>
         <template #header>
+            <div class="mb-4 flex justify-start">
+                <Link href="/invoices" class="nav-pill bg-white text-slate-700 shadow-sm border border-slate-200 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 transition-colors">
+                    <span aria-hidden="true">&larr;</span>
+                    <span class="ml-1">Back</span>
+                </Link>
+            </div>
             <PageHeader
                 eyebrow="Billing"
                 title="Edit Invoice"
                 description="Update invoice details."
-                backHref="/invoices"
-                backLabel="Back to billing"
             />
         </template>
 
@@ -64,6 +68,7 @@ const submit = () => {
                                 v-model="form.customer_id"
                                 :options="customerOptions"
                                 :error="form.errors.customer_id"
+                                disabled
                             />
                         </div>
 
@@ -75,6 +80,7 @@ const submit = () => {
                                 label="Amount ($)"
                                 v-model="form.amount"
                                 :error="form.errors.amount"
+                                disabled
                             />
                         </div>
 

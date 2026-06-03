@@ -22,12 +22,16 @@ const submit = () => {
 
     <DashboardLayout>
         <template #header>
+            <div class="mb-4 flex justify-start">
+                <Link href="/customers" class="nav-pill bg-white text-slate-700 shadow-sm border border-slate-200 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 transition-colors">
+                    <span aria-hidden="true" class="font-black text-lg">&larr;</span>
+                    <span class="ml-1">Back</span>
+                </Link>
+            </div>
             <PageHeader
                 eyebrow="Customers"
                 title="Add Customer"
                 description="Create a new customer profile to track proposals and invoices."
-                backHref="/customers"
-                backLabel="Back to directory"
             />
         </template>
 
@@ -69,7 +73,7 @@ const submit = () => {
 
                         <div class="sm:col-span-2">
                             <div class="w-full">
-                                <label for="address" class="form-label">Billing Address</label>
+                                <label for="address" class="form-label">Address</label>
                                 <textarea
                                     id="address"
                                     v-model="form.address"

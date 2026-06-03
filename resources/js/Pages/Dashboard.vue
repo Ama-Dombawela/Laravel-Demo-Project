@@ -51,19 +51,19 @@ const statTone = {
             <PageHeader
                 eyebrow="Overview"
                 title="Dashboard"
-                description="A colorful at-a-glance view of your CRM workspace, with quick access to the most important sections."
+                description="Monitor customers, proposals, invoices, and transactions through a centralized and intuitive dashboard."
             />
         </template>
 
         <div class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
             <div class="grid gap-6 lg:grid-cols-[1.5fr_0.85fr]">
                 <!-- Welcome Card -->
-                <Card variant="surface" padding="p-8" class="overflow-hidden bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-600 !border-0 text-white shadow-xl shadow-indigo-200/70">
+                <Card variant="surface" padding="p-8" class="overflow-hidden bg-gradient-to-br from-indigo-400 via-violet-400 to-cyan-600 !border-0 text-black shadow-xl shadow-indigo-200/70">
                     <div class="absolute right-0 top-0 h-52 w-52 rounded-full bg-white/10 blur-3xl"></div>
                     <div class="relative z-10 max-w-2xl">
-                        <p class="inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white/90 ring-1 ring-inset ring-white/20">Welcome back</p>
+                        <p class="inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-black/90 ring-1 ring-inset ring-white/20">Welcome back</p>
                         <h2 class="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">Keep the whole client workflow in one polished place.</h2>
-                        <p class="mt-3 max-w-xl text-sm leading-7 text-white/85 sm:text-base">
+                        <p class="mt-3 max-w-xl text-sm leading-7 text-black/85 sm:text-base">
                             Use the shortcuts below to manage customers, proposals, invoices, and payments without leaving the dashboard.
                         </p>
                         
@@ -155,19 +155,24 @@ const statTone = {
                         v-for="item in shortcuts"
                         :key="item.href"
                         :href="item.href"
-                        class="group surface-card flex h-full flex-col justify-between p-5 transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+                        :class="[
+                            'group flex h-full flex-col justify-between rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ring-1',
+                            item.tone === 'sky' ? 'bg-gradient-to-br from-sky-50 to-sky-100 shadow-sky-200/50 ring-sky-200' : 
+                            item.tone === 'violet' ? 'bg-gradient-to-br from-violet-50 to-violet-100 shadow-violet-200/50 ring-violet-200' : 
+                            item.tone === 'emerald' ? 'bg-gradient-to-br from-emerald-50 to-emerald-100 shadow-emerald-200/50 ring-emerald-200' : 
+                            'bg-gradient-to-br from-amber-50 to-amber-100 shadow-amber-200/50 ring-amber-200'
+                        ]"
                     >
                         <div>
-                            <div :class="`inline-flex rounded-2xl px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${item.tone === 'sky' ? 'bg-sky-50 text-sky-700 ring-sky-100' : item.tone === 'violet' ? 'bg-violet-50 text-violet-700 ring-violet-100' : item.tone === 'emerald' ? 'bg-emerald-50 text-emerald-700 ring-emerald-100' : 'bg-amber-50 text-amber-700 ring-amber-100'}`" class="ring-1 ring-inset">
+                            <div :class="`inline-flex rounded-2xl px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ring-1 ring-inset backdrop-blur-sm ${item.tone === 'sky' ? 'bg-sky-200/50 text-sky-800 ring-sky-300' : item.tone === 'violet' ? 'bg-violet-200/50 text-violet-800 ring-violet-300' : item.tone === 'emerald' ? 'bg-emerald-200/50 text-emerald-800 ring-emerald-300' : 'bg-amber-200/50 text-amber-800 ring-amber-300'}`">
                                 {{ item.label }}
                             </div>
-                            <h4 class="mt-4 text-xl font-bold text-slate-900 transition-colors group-hover:text-indigo-700">{{ item.label }}</h4>
-                            <p class="mt-2 text-sm leading-6 text-slate-500">{{ item.description }}</p>
+                            <h4 class="mt-5 text-xl font-bold text-slate-900 transition-colors">{{ item.label }}</h4>
+                            <p class="mt-2 text-sm leading-6 text-slate-600">{{ item.description }}</p>
                         </div>
 
-                        <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 transition-transform group-hover:translate-x-1">
-                            Open section
-                            <span aria-hidden="true">→</span>
+                        <span :class="`mt-6 inline-block font-semibold transition-all duration-300 group-hover:underline decoration-2 underline-offset-4 ${item.tone === 'sky' ? 'text-sky-700' : item.tone === 'violet' ? 'text-violet-700' : item.tone === 'emerald' ? 'text-emerald-700' : 'text-amber-700'}`">
+                            Click
                         </span>
                     </Link>
                 </div>

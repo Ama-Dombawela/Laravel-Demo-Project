@@ -21,8 +21,9 @@ const submit = () => {
     <GuestLayout>
         <Head title="Forgot Password" />
 
-        <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
+        <div class="mb-4 text-sm text-gray-700">
+            Forgot your password?<br><br>
+            No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
         </div>
 
         <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
@@ -47,9 +48,8 @@ const submit = () => {
 
             <div class="mt-4 flex items-center justify-end">
                 <button
-                    type="submit"
-                    class="inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900"
-                    :class="{ 'opacity-25': form.processing }"
+                     class="btn-primary w-full justify-center py-3 text-sm"
+                    :class="{ 'opacity-70 cursor-not-allowed': form.processing }"
                     :disabled="form.processing"
                 >
                     Email Password Reset Link

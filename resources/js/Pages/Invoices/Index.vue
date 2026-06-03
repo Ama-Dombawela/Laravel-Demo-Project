@@ -18,6 +18,7 @@ const props = defineProps({
 const page = usePage();
 
 const deleteForm = useForm({});
+const statusForm = useForm({});
 const deletingInvoice = ref(null);
 const search = ref(props.filters?.search || '');
 
@@ -26,8 +27,14 @@ const handleSearch = () => {
     router.get('/invoices', { search: search.value }, { preserveState: true, preserveScroll: true, replace: true });
 };
 
+const changeStatus = (id) => {
+    statusForm.patch(`/invoices/${id}/status`, {
+        preserveScroll: true,
+    });
+};
+
 const paidInvoices = computed(() => props.invoices.data.filter((invoice) => invoice.status === 'paid').length);
-const pendingInvoices = computed(() => props.invoices.data.filter((invoice) => invoice.status === 'pending').length);
+const unpaidInvoices = computed(() => props.invoices.data.filter((invoice) => invoice.status === 'unpaid').length);
 
 const openDeleteModal = (invoice) => {
     deletingInvoice.value = invoice;
@@ -58,9 +65,10 @@ const deleteInvoice = () => {
                 eyebrow="Billing"
                 title="Invoices"
                 description="Review invoice status, due dates, and billing totals in a cleaner table layout."
+                tone="emerald"
             >
                 <template #actions>
-                    <Link href="/invoices/create" class="btn-primary">New Invoice</Link>
+                    <Link href="/invoices/create" class="btn-emerald">New Invoice</Link>
                 </template>
             </PageHeader>
         </template>
@@ -71,7 +79,7 @@ const deleteInvoice = () => {
             </div>
 
             <section class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                <StatCard label="Total invoices" :value="invoices.total" hint="All billing records" tone="indigo">
+                <StatCard label="Total invoices" :value="invoices.total" hint="All billing records" tone="emerald">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                     </svg>
@@ -83,7 +91,7 @@ const deleteInvoice = () => {
                     </svg>
                 </StatCard>
 
-                <StatCard label="Unpaid" :value="pendingInvoices" hint="Still awaiting payment" tone="amber">
+                <StatCard label="Unpaid" :value="unpaidInvoices" hint="Still awaiting payment" tone="amber">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -102,7 +110,7 @@ const deleteInvoice = () => {
                             v-model="search"
                             @keyup.enter="handleSearch"
                             placeholder="Search invoices..."
-                            class="block w-full rounded-xl border-slate-200 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            class="block w-full rounded-xl border-slate-200 text-sm shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
                         />
                     </div>
                 </div>
@@ -138,11 +146,11 @@ const deleteInvoice = () => {
                         <tbody>
                             <tr v-for="(invoice, index) in invoices.data" :key="invoice.id" class="table-row group">
                                 <td class="table-cell font-medium text-slate-500">{{ index + 1 }}</td>
-                                <td class="table-cell font-mono text-sm font-bold text-indigo-600">{{ invoice.invoice_number }}</td>
+                                <td class="table-cell font-mono text-sm font-bold text-emerald-600">{{ invoice.invoice_number }}</td>
                                 <td class="table-cell font-semibold text-slate-900">{{ invoice.customer?.name }}</td>
                                 <td class="table-cell font-semibold text-emerald-600">${{ parseFloat(invoice.amount).toFixed(2) }}</td>
                                 <td class="table-cell">
-                                    <span :class="invoice.status === 'paid' ? 'badge-success' : invoice.status === 'pending' ? 'badge-warning' : 'badge-danger'">
+                                    <span :class="invoice.status === 'paid' ? 'badge-success' : invoice.status === 'unpaid' ? 'badge-warning' : 'badge-danger'">
                                         {{ invoice.status }}
                                     </span>
                                 </td>
@@ -158,6 +166,17 @@ const deleteInvoice = () => {
                                 </td>
                                 <td class="table-cell text-right">
                                     <div class="flex justify-end gap-2 opacity-100 sm:opacity-80 sm:group-hover:opacity-100 transition-opacity">
+                                        <button
+                                            @click="changeStatus(invoice.id)"
+                                            class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-emerald-600 transition-colors hover:bg-emerald-50"
+                                            title="Toggle Status"
+                                            aria-label="Toggle invoice status"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                            </svg>
+                                        </button>
+
                                         <Link :href="`/invoices/${invoice.id}/edit`" class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-amber-600 transition-colors hover:bg-amber-50" title="Edit" aria-label="Edit invoice">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />

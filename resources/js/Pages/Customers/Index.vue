@@ -62,10 +62,11 @@ const deleteCustomer = () => {
             <PageHeader
                 eyebrow="CRM"
                 title="Customers"
-                description="Track contacts, toggle status, and keep the directory organized with a polished responsive table."
+                description="Manage customer records, track account status, and maintain an organized directory from a single centralized workspace"
+                tone="sky"
             >
                 <template #actions>
-                    <Link href="/customers/create" class="btn-primary">Add Customer</Link>
+                    <Link href="/customers/create" class="btn-sky">Add Customer</Link>
                 </template>
             </PageHeader>
         </template>
@@ -76,7 +77,7 @@ const deleteCustomer = () => {
             </div>
 
             <section class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                <StatCard label="Total customers" :value="customers.total" hint="All customer records" tone="indigo">
+                <StatCard label="Total customers" :value="customers.total" hint="All customer records" tone="sky">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
@@ -99,7 +100,7 @@ const deleteCustomer = () => {
                 <div class="border-b border-slate-100 px-6 py-5 sm:flex sm:items-center sm:justify-between">
                     <div>
                         <h2 class="section-heading">Directory</h2>
-                        <p class="section-subtitle">Hover rows for actions and use the status button to switch a customer on or off.</p>
+                        <p class="section-subtitle">Manage customer profiles and status updates</p>
                     </div>
                     <div class="mt-4 sm:mt-0 sm:ml-4">
                         <input
@@ -107,7 +108,7 @@ const deleteCustomer = () => {
                             v-model="search"
                             @keyup.enter="handleSearch"
                             placeholder="Search customers..."
-                            class="block w-full rounded-xl border-slate-200 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            class="block w-full rounded-xl border-slate-200 text-sm shadow-sm focus:border-sky-500 focus:ring-sky-500"
                         />
                     </div>
                 </div>

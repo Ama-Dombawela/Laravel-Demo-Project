@@ -35,7 +35,8 @@ const handleSearch = () => {
             <PageHeader
                 eyebrow="Payments"
                 title="Transactions"
-                description="Follow every captured payment with a streamlined payment history table and compact status summaries."
+                description="Track captured payments in a streamlined history table with status summaries."
+                tone="amber"
             />
         </template>
 
@@ -58,7 +59,7 @@ const handleSearch = () => {
                             v-model="search"
                             @keyup.enter="handleSearch"
                             placeholder="Search transactions..."
-                            class="block w-full rounded-xl border-slate-200 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            class="block w-full rounded-xl border-slate-200 text-sm shadow-sm focus:border-amber-500 focus:ring-amber-500"
                         />
                     </div>
                 </div>
@@ -94,7 +95,7 @@ const handleSearch = () => {
                                 <td class="table-cell font-medium text-slate-500">{{ index + 1 }}</td>
                                 <td class="table-cell font-semibold text-slate-900">
                                     <div class="flex items-center gap-2">
-                                        <div class="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 text-xs font-bold text-indigo-600">
+                                        <div class="flex h-8 w-8 items-center justify-center rounded-full bg-amber-100 text-xs font-bold text-amber-600">
                                             {{ transaction.customer?.name?.charAt(0) }}
                                         </div>
                                         {{ transaction.customer?.name }}

@@ -15,6 +15,7 @@ defineProps({
     <Head title="Welcome" />
 
     <div class="page-shell min-h-screen bg-slate-50 text-slate-900 selection:bg-indigo-600 selection:text-white">
+        
         <!-- Animated Background Elements -->
         <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
             <div class="absolute -top-[20%] -left-[10%] h-[70%] w-[50%] rounded-full bg-indigo-500/10 blur-[120px] animate-blob"></div>
@@ -22,7 +23,7 @@ defineProps({
             <div class="absolute -bottom-[20%] left-[20%] h-[50%] w-[60%] rounded-full bg-emerald-500/10 blur-[120px] animate-blob animation-delay-4000"></div>
         </div>
 
-        <nav class="relative z-10 mx-auto max-w-7xl px-6 py-6 lg:px-8">
+        <nav class="relative z-10 w-full px-4 py-6 sm:px-8 lg:px-12">
             <div class="flex items-center justify-between">
                 <Link href="/" class="group flex items-center gap-3">
                     <img src="/images/logo.png" alt="CRM Logo" class="h-20 w-auto transition-transform duration-300 group-hover:scale-105" />

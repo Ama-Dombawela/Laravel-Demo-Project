@@ -29,17 +29,17 @@ const handleSearch = () => {
 
 const approvedProposals = computed(() => props.proposals.data.filter((proposal) => proposal.status === 'approved').length);
 const pendingProposals = computed(() => props.proposals.data.filter((proposal) => proposal.status === 'pending').length);
+const rejectedProposals = computed(() => props.proposals.data.filter((proposal) => proposal.status === 'rejected').length);
 
-const updateStatus = (proposal) => {
-    const newStatus = proposal.status === 'pending' ? 'approved' : 'pending';
+const changeStatus = (id, newStatus) => {
     statusForm.status = newStatus;
     
-    statusForm.patch(`/proposals/${proposal.id}/status`, {
+    statusForm.patch(`/proposals/${id}/status`, {
         preserveScroll: true,
     });
 };
 
-const confirmProposalDeletion = (proposal) => {
+const openDeleteModal = (proposal) => {
     deletingProposal.value = proposal;
 };
 
@@ -68,10 +68,11 @@ const deleteProposal = () => {
             <PageHeader
                 eyebrow="Sales"
                 title="Proposals"
-                description="Keep the proposal pipeline visible with approvals, pending work, and quick status updates."
+                description="Manage and track all your proposals. Monitor approvals, pending reviews, and rejected offers."
+                tone="violet"
             >
                 <template #actions>
-                    <Link href="/proposals/create" class="btn-primary">New Proposal</Link>
+                    <Link href="/proposals/create" class="btn-violet">New Proposal</Link>
                 </template>
             </PageHeader>
         </template>
@@ -85,8 +86,8 @@ const deleteProposal = () => {
                 <AlertBanner variant="error" title="Error" :message="Object.values(page.props.errors)[0]" />
             </div>
 
-            <section class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-                <StatCard label="Total proposals" :value="proposals.total" hint="All proposals in play" tone="indigo">
+            <section class="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+                <StatCard label="Total proposals" :value="proposals.total" hint="All proposals in play" tone="violet">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
@@ -103,13 +104,19 @@ const deleteProposal = () => {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </StatCard>
+
+                <StatCard label="Rejected" :value="rejectedProposals" hint="Declined offers" tone="rose">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </StatCard>
             </section>
 
             <section class="mt-8 surface-card overflow-hidden">
                 <div class="border-b border-slate-100 px-6 py-5 sm:flex sm:items-center sm:justify-between">
                     <div>
-                        <h2 class="section-heading">Proposal pipeline</h2>
-                        <p class="section-subtitle">Update statuses inline and keep every proposal card easy to scan.</p>
+                        <h2 class="section-heading">Proposals</h2>
+                        <p class="section-subtitle">View detailed information for each proposal and manage their current status.</p>
                     </div>
                     <div class="mt-4 sm:mt-0 sm:ml-4">
                         <input
@@ -117,7 +124,7 @@ const deleteProposal = () => {
                             v-model="search"
                             @keyup.enter="handleSearch"
                             placeholder="Search proposals..."
-                            class="block w-full rounded-xl border-slate-200 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            class="block w-full rounded-xl border-slate-200 text-sm shadow-sm focus:border-violet-500 focus:ring-violet-500"
                         />
                     </div>
                 </div>
@@ -156,7 +163,6 @@ const deleteProposal = () => {
                                 <td class="table-cell font-semibold text-slate-900">{{ proposal.customer?.name }}</td>
                                 <td class="table-cell">
                                     <div class="font-medium text-slate-800">{{ proposal.title }}</div>
-                                    <div class="max-w-[240px] truncate text-xs text-slate-500" :title="proposal.description">{{ proposal.description }}</div>
                                 </td>
                                 <td class="table-cell font-semibold text-emerald-600">${{ parseFloat(proposal.amount).toFixed(2) }}</td>
                                 <td class="table-cell">
@@ -173,6 +179,13 @@ const deleteProposal = () => {
                                 </td>
                                 <td class="table-cell text-right">
                                     <div class="flex items-center justify-end gap-2 opacity-100 sm:opacity-80 sm:group-hover:opacity-100 transition-opacity">
+                                        <Link :href="`/proposals/${proposal.id}`" class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-sky-600 transition-colors hover:bg-sky-50" title="View" aria-label="View proposal">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </Link>
+
                                         <Link :href="`/proposals/${proposal.id}/edit`" class="inline-flex h-9 w-9 items-center justify-center rounded-xl text-amber-600 transition-colors hover:bg-amber-50" title="Edit" aria-label="Edit proposal">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
@@ -182,7 +195,7 @@ const deleteProposal = () => {
                                         <select
                                             :value="proposal.status"
                                             @change="changeStatus(proposal.id, $event.target.value)"
-                                            class="rounded-xl border-slate-200 bg-white px-3 pr-8 py-2 text-xs font-medium text-slate-600 shadow-sm transition focus:border-indigo-500 focus:ring-indigo-500"
+                                            class="rounded-xl border-slate-200 bg-white px-3 pr-8 py-2 text-xs font-medium text-slate-600 shadow-sm transition focus:border-violet-500 focus:ring-violet-500"
                                             title="Change status"
                                             aria-label="Change proposal status"
                                         >

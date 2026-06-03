@@ -16,7 +16,7 @@
 	}
 
 	body {
-		@apply bg-slate-50 text-slate-900 antialiased;
+		@apply text-slate-900 antialiased;
 		font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 		background-image:
 			radial-gradient(circle at top left, rgba(59, 130, 246, 0.06), transparent 28%),
@@ -57,6 +57,22 @@
 
 	.btn-warning {
 		@apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-200/50 transition-all duration-300 hover:-translate-y-0.5 hover:from-amber-300 hover:to-orange-400 hover:shadow-amber-300/50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+	}
+
+	.btn-sky {
+		@apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-200/50 transition-all duration-300 hover:-translate-y-0.5 hover:from-sky-400 hover:to-blue-500 hover:shadow-sky-300/50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+	}
+
+	.btn-violet {
+		@apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet-200/50 transition-all duration-300 hover:-translate-y-0.5 hover:from-violet-400 hover:to-purple-500 hover:shadow-violet-300/50 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+	}
+
+	.btn-emerald {
+		@apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-200/50 transition-all duration-300 hover:-translate-y-0.5 hover:from-emerald-400 hover:to-teal-500 hover:shadow-emerald-300/50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+	}
+
+	.btn-amber {
+		@apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-amber-200/50 transition-all duration-300 hover:-translate-y-0.5 hover:from-amber-400 hover:to-orange-500 hover:shadow-amber-300/50 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
 	}
 
 	.form-input {
@@ -136,6 +152,47 @@
 
 	.nav-pill {
 		@apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all duration-300;
+	}
+
+	.dark-table-card {
+		@apply bg-gradient-to-br from-indigo-600 via-violet-600 to-cyan-600 shadow-xl shadow-indigo-200/70 border-0 text-white relative overflow-hidden;
+	}
+	.dark-table-card .section-heading {
+		@apply text-white;
+	}
+	.dark-table-card .section-subtitle {
+		@apply text-white/80;
+	}
+	.dark-table-card .table-header {
+		@apply bg-white/10 border-white/20 text-white/90;
+	}
+	.dark-table-card .table-row {
+		@apply border-white/10 hover:bg-white/5;
+	}
+	.dark-table-card .table-cell {
+		@apply text-white/90 border-white/10;
+	}
+	.dark-table-card .table-cell .text-slate-900,
+	.dark-table-card .table-cell .text-slate-800,
+	.dark-table-card .table-cell .text-slate-700,
+	.dark-table-card .table-cell .text-slate-600,
+	.dark-table-card .table-cell .text-slate-500 {
+		@apply text-white/90;
+	}
+	.dark-table-card .table-cell .text-emerald-600 {
+		@apply text-emerald-300 font-bold;
+	}
+	.dark-table-card .table-cell .text-indigo-600 {
+		@apply text-indigo-300 font-bold;
+	}
+	.dark-table-card input {
+		@apply bg-white/20 border-white/30 text-white placeholder-white/60 focus:border-white focus:ring-white;
+	}
+	.dark-table-card .border-slate-100 {
+		@apply border-white/20;
+	}
+	.dark-table-card .bg-slate-50\/50 {
+		@apply bg-white/10;
 	}
 }
 
