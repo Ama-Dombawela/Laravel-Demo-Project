@@ -23,10 +23,6 @@
 			radial-gradient(circle at top right, rgba(16, 185, 129, 0.06), transparent 24%),
 			radial-gradient(circle at bottom center, rgba(168, 85, 247, 0.05), transparent 30%);
 	}
-
-	::selection {
-		@apply bg-indigo-600 text-white;
-	}
 }
 
 @layer components {

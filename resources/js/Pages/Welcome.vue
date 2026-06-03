@@ -14,7 +14,7 @@ defineProps({
 <template>
     <Head title="Welcome" />
 
-    <div class="page-shell min-h-screen bg-slate-50 text-slate-900 selection:bg-indigo-600 selection:text-white">
+    <div class="page-shell min-h-screen bg-slate-50 text-slate-900">
         
         <!-- Animated Background Elements -->
         <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -52,11 +52,11 @@ defineProps({
                 </div>
                 
                 <h1 class="mx-auto max-w-4xl text-5xl font-extrabold tracking-tight text-slate-900 sm:text-7xl">
-                    Manage customers, proposals and invoices <span class="bg-gradient-to-r from-indigo-600 via-violet-500 to-cyan-500 bg-clip-text text-transparent">beautifully</span>
+                    Streamline your clients, proposals, and invoices in one place <span class="bg-gradient-to-r from-indigo-600 via-violet-500 to-cyan-500 bg-clip-text text-transparent">beautifully</span>
                 </h1>
                 
                 <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
-                    Keep your day-to-day work in one place with a clean dashboard, easy navigation, and powerful features designed for modern teams.
+                    Built for teams who want less complexity — manage clients, proposals, and invoices from a single dashboard.
                 </p>
 
                 <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
