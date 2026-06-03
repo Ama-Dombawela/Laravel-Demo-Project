@@ -1,10 +1,22 @@
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
+import PageHeader from '@/Components/ui/PageHeader.vue';
+import Card from '@/Components/ui/Card.vue';
+import FormInput from '@/Components/ui/FormInput.vue';
+import FormSelect from '@/Components/ui/FormSelect.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
 const props = defineProps({
     invoice: Object,
     customers: Array,
+});
+
+const customerOptions = computed(() => {
+    return [
+        { value: '', label: 'Select Customer' },
+        ...props.customers.map(c => ({ value: c.id, label: c.name }))
+    ];
 });
 
 const form = useForm({
@@ -23,54 +35,74 @@ const submit = () => {
 
     <DashboardLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Edit Invoice</h2>
+            <PageHeader
+                eyebrow="Billing"
+                title="Edit Invoice"
+                description="Update invoice details."
+                backHref="/invoices"
+                backLabel="Back to billing"
+            />
         </template>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+        <div class="mx-auto max-w-3xl px-4 pb-12 sm:px-6 lg:px-8">
+            <Card variant="surface">
+                <form @submit.prevent="submit" class="space-y-6">
+                    <div class="grid gap-6 sm:grid-cols-2">
+                        <div class="sm:col-span-2">
+                            <FormInput
+                                id="invoice_number"
+                                label="Invoice Number"
+                                :modelValue="invoice.invoice_number"
+                                disabled
+                            />
+                        </div>
 
-                    <form @submit.prevent="submit" class="space-y-4">
-                        <div>
-                            <label class="block text-gray-700 mb-1">Invoice Number</label>
-                            <input type="text" :value="invoice.invoice_number" class="w-full rounded border-gray-300 bg-gray-100 px-3 py-2" readonly>
+                        <div class="sm:col-span-2">
+                            <FormSelect
+                                id="customer"
+                                label="Customer"
+                                v-model="form.customer_id"
+                                :options="customerOptions"
+                                :error="form.errors.customer_id"
+                            />
                         </div>
 
                         <div>
-                            <label class="block text-gray-700 mb-1">Customer</label>
-                            <select v-model="form.customer_id" class="w-full rounded border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
-                                <option value="" disabled>Select Customer</option>
-                                <option v-for="customer in customers" :key="customer.id" :value="customer.id">
-                                    {{ customer.name }}
-                                </option>
-                            </select>
-                            <div v-if="form.errors.customer_id" class="text-red-500 text-sm mt-1">{{ form.errors.customer_id }}</div>
+                            <FormInput
+                                id="amount"
+                                type="number"
+                                step="0.01"
+                                label="Amount ($)"
+                                v-model="form.amount"
+                                :error="form.errors.amount"
+                            />
                         </div>
 
                         <div>
-                            <label class="block text-gray-700 mb-1">Amount</label>
-                            <input type="number" step="0.01" v-model="form.amount" class="w-full rounded border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
-                            <div v-if="form.errors.amount" class="text-red-500 text-sm mt-1">{{ form.errors.amount }}</div>
+                            <FormInput
+                                id="due_date"
+                                type="date"
+                                label="Due Date"
+                                v-model="form.due_date"
+                                :error="form.errors.due_date"
+                            />
                         </div>
+                    </div>
 
-                        <div>
-                            <label class="block text-gray-700 mb-1">Due Date</label>
-                            <input type="date" v-model="form.due_date" class="w-full rounded border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
-                            <div v-if="form.errors.due_date" class="text-red-500 text-sm mt-1">{{ form.errors.due_date }}</div>
-                        </div>
-
-                        <div class="flex gap-2">
-                            <button type="submit" class="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700" :disabled="form.processing">
-                                Update Invoice
-                            </button>
-                            <Link href="/invoices" class="rounded bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300 inline-block text-center flex items-center">
-                                Cancel
-                            </Link>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
+                    <div class="flex items-center justify-end gap-3 border-t border-slate-100 pt-6">
+                        <Link href="/invoices" class="btn-secondary">
+                            Cancel
+                        </Link>
+                        <button type="submit" class="btn-primary" :disabled="form.processing">
+                            <svg v-if="form.processing" class="-ml-1 mr-2 h-4 w-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Update Invoice
+                        </button>
+                    </div>
+                </form>
+            </Card>
         </div>
     </DashboardLayout>
 </template>

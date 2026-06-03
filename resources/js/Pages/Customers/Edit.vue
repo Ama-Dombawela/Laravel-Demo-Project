@@ -1,5 +1,8 @@
 <script setup>
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
+import PageHeader from '@/Components/ui/PageHeader.vue';
+import Card from '@/Components/ui/Card.vue';
+import FormInput from '@/Components/ui/FormInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
@@ -23,50 +26,77 @@ const submit = () => {
 
     <DashboardLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Edit Customer</h2>
+            <PageHeader
+                eyebrow="Customers"
+                title="Edit Customer"
+                description="Update the customer's contact information or billing address."
+                backHref="/customers"
+                backLabel="Back to directory"
+            />
         </template>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-
-                    <form @submit.prevent="submit" class="space-y-4">
-                        <div>
-                            <label class="block text-gray-700 mb-1">Name</label>
-                            <input type="text" v-model="form.name" class="w-full rounded border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
-                            <div v-if="form.errors.name" class="text-red-500 text-sm mt-1">{{ form.errors.name }}</div>
+        <div class="mx-auto max-w-3xl px-4 pb-12 sm:px-6 lg:px-8">
+            <Card variant="surface">
+                <form @submit.prevent="submit" class="space-y-6">
+                    <div class="grid gap-6 sm:grid-cols-2">
+                        <div class="sm:col-span-2">
+                            <FormInput
+                                id="name"
+                                label="Customer Name"
+                                v-model="form.name"
+                                :error="form.errors.name"
+                                autofocus
+                            />
                         </div>
 
                         <div>
-                            <label class="block text-gray-700 mb-1">Email</label>
-                            <input type="email" v-model="form.email" class="w-full rounded border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
-                            <div v-if="form.errors.email" class="text-red-500 text-sm mt-1">{{ form.errors.email }}</div>
+                            <FormInput
+                                id="email"
+                                type="email"
+                                label="Email Address"
+                                v-model="form.email"
+                                :error="form.errors.email"
+                            />
                         </div>
 
                         <div>
-                            <label class="block text-gray-700 mb-1">Phone</label>
-                            <input type="text" v-model="form.phone" class="w-full rounded border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
-                            <div v-if="form.errors.phone" class="text-red-500 text-sm mt-1">{{ form.errors.phone }}</div>
+                            <FormInput
+                                id="phone"
+                                label="Phone Number"
+                                v-model="form.phone"
+                                :error="form.errors.phone"
+                            />
                         </div>
 
-                        <div>
-                            <label class="block text-gray-700 mb-1">Address</label>
-                            <textarea v-model="form.address" rows="3" class="w-full rounded border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"></textarea>
-                            <div v-if="form.errors.address" class="text-red-500 text-sm mt-1">{{ form.errors.address }}</div>
+                        <div class="sm:col-span-2">
+                            <div class="w-full">
+                                <label for="address" class="form-label">Billing Address</label>
+                                <textarea
+                                    id="address"
+                                    v-model="form.address"
+                                    rows="3"
+                                    class="form-input"
+                                    :class="{ 'border-rose-300 ring-rose-500/20 focus:border-rose-500': form.errors.address }"
+                                ></textarea>
+                                <p v-if="form.errors.address" class="input-error animate-fade-in">{{ form.errors.address }}</p>
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="flex gap-2">
-                            <button type="submit" class="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700" :disabled="form.processing">
-                                Update Customer
-                            </button>
-                            <Link href="/customers" class="rounded bg-gray-200 px-4 py-2 text-gray-800 hover:bg-gray-300 inline-block text-center flex items-center">
-                                Cancel
-                            </Link>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
+                    <div class="flex items-center justify-end gap-3 border-t border-slate-100 pt-6">
+                        <Link href="/customers" class="btn-secondary">
+                            Cancel
+                        </Link>
+                        <button type="submit" class="btn-primary" :disabled="form.processing">
+                            <svg v-if="form.processing" class="-ml-1 mr-2 h-4 w-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Update Customer
+                        </button>
+                    </div>
+                </form>
+            </Card>
         </div>
     </DashboardLayout>
 </template>

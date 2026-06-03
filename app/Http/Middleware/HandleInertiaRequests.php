@@ -2,6 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Customer;
+use App\Models\Invoice;
+use App\Models\Proposal;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -39,6 +43,12 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+            ],
+            'stats' => [
+                'customers' => Customer::count(),
+                'proposals' => Proposal::count(),
+                'invoices' => Invoice::count(),
+                'transactions' => Transaction::count(),
             ],
         ];
     }
