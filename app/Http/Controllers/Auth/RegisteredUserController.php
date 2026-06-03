@@ -15,14 +15,17 @@ use Illuminate\View\View;
 use App\Mail\RegisterSuccessMail;
 use Illuminate\Support\Facades\Mail;
 
+use Inertia\Inertia;
+use Inertia\Response;
+
 class RegisteredUserController extends Controller
 {
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create(): Response
     {
-        return view('auth.register');
+        return Inertia::render('Auth/Register');
     }
 
     /**

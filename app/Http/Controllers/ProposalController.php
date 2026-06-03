@@ -17,9 +17,23 @@ class ProposalController extends Controller
      */
     public function index()
     {
-        //Show all the proposals
-        $proposals = Proposal::with('customer')->get();
-        return view('proposals.index', compact('proposals'));
+        // Retrieve search query for filtering records
+        $search = request('search');
+        
+      
+        // Apply a dynamic where-clause to search by proposal title or associated customer name.
+        $proposals = Proposal::with('customer')
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%")
+                      ->orWhereHas('customer', function($q) use ($search) {
+                          $q->where('name', 'like', "%{$search}%");
+                      });
+            })->paginate(10)->withQueryString();
+
+        return \Inertia\Inertia::render('Proposals/Index', [
+            'proposals' => $proposals,
+            'filters' => request()->only(['search'])
+        ]);
     }
 
     /**
@@ -28,7 +42,9 @@ class ProposalController extends Controller
     public function create()
     {
         $customers = Customer::all();
-        return view('proposals.create', compact('customers'));
+        return \Inertia\Inertia::render('Proposals/Create', [
+            'customers' => $customers
+        ]);
     }
 
     /**
@@ -39,9 +55,9 @@ class ProposalController extends Controller
         //Validate the form inputs
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
-            'title'       => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'amount'      => 'required|numeric',
+            'amount' => 'required|numeric',
         ]);
 
         Proposal::create($request->all());
@@ -51,27 +67,41 @@ class ProposalController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show(Proposal $proposal)
+    {
+        $proposal->load('customer');
+        return \Inertia\Inertia::render('Proposals/Show', [
+            'proposal' => $proposal
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Proposal $proposal)
     {
         $customers = Customer::all();
-        return view('proposals.edit', compact('proposal', 'customers'));
+        return \Inertia\Inertia::render('Proposals/Edit', [
+            'proposal' => $proposal,
+            'customers' => $customers
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Proposal $proposals)
+    public function update(Request $request, Proposal $proposal)
     {
         $validated = $request->validate([
             'customer_id' => 'required|exists:customers,id',
-            'title'       => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'amount'      => 'required|numeric',
+            'amount' => 'required|numeric',
         ]);
 
-        $proposals->update($validated);
+        $proposal->update($validated);
 
         return redirect()->route('proposals.index')
             ->with('success', 'Proposal updated successfully!');
@@ -94,11 +124,11 @@ class ProposalController extends Controller
         // Auto-create an invoice when proposal is approved
         if ($validated['status'] === 'approved') {
             $invoice = Invoice::create([
-                'customer_id'    => $proposal->customer_id,
+                'customer_id' => $proposal->customer_id,
                 'invoice_number' => 'INV-' . strtoupper(Str::random(8)),
-                'amount'         => $proposal->amount,
-                'due_date'       => now()->addDays(30), // set the due date for 30 days
-                'status'         => 'unpaid',
+                'amount' => $proposal->amount,
+                'due_date' => now()->addDays(30), // set the due date for 30 days
+                'status' => 'unpaid',
             ]);
 
             // Send the invoice email to the customer

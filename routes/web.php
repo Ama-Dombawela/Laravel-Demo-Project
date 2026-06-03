@@ -7,13 +7,17 @@ use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+    ]);
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 //Profile(breeze deafult)
@@ -29,17 +33,24 @@ Route::patch('customers/{customer}', [CustomerController::class, 'update'])->nam
 Route::patch('customers/{customer}/status', [CustomerController::class, 'changeStatus'])->name('customers.changeStatus');
 
 // Proposals
-Route::resource('proposals', ProposalController::class);
-Route::patch('proposals/{proposal}/status', [ProposalController::class, 'changeStatus'])->name('proposals.changeStatus'); // Custom route to change only proposal status (not full update)
+Route::middleware('auth')->group(function () {
+    Route::resource('proposals', ProposalController::class);
+    Route::patch('proposals/{proposal}/status', [ProposalController::class, 'changeStatus'])->name('proposals.changeStatus');
+});
 
 // Invoices
+// Public payment routes
 Route::get('invoices/payment/sucesss', [InvoiceController::class, 'paymentSuccess'])->name('invoices.payment.success');
-Route::resource('invoices', InvoiceController::class);
-Route::patch('invoices/{invoice}/status', [InvoiceController::class, 'changeStatus'])->name('invoices.changeStatus');
-Route::post('invoices/{invoice}/send', [InvoiceController::class, 'sendInvoice'])->name('invoices.send'); // Send invoice via email
-Route::get('invoices/{invoice}/pay', [InvoiceController::class, 'createCheckout'])->name('invoices.pay'); // Pay invoice route
+Route::get('invoices/{invoice}/pay', [InvoiceController::class, 'createCheckout'])->name('invoices.pay');
+
+// Protected invoice routes
+Route::middleware('auth')->group(function () {
+    Route::resource('invoices', InvoiceController::class);
+    Route::patch('invoices/{invoice}/status', [InvoiceController::class, 'changeStatus'])->name('invoices.changeStatus');
+    Route::post('invoices/{invoice}/send', [InvoiceController::class, 'sendInvoice'])->name('invoices.send');
+});
 
 // Transactions
-Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index')->middleware('auth');
 
 require __DIR__ . '/auth.php';

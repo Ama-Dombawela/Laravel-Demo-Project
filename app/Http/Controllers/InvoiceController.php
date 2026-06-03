@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\InvoiceMail;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as StripeSession;
+use Inertia\Inertia;
 
 class InvoiceController extends Controller
 {
@@ -19,9 +20,22 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //Retrieve all the invoices along with their customer data using eager loading
-        $invoices = Invoice::with('customer')->get();
-        return view('invoices.index', compact('invoices'));
+        // Retrieve search query for filtering records
+        $search = request('search');
+        
+        // Filters records matching the invoice number or the related customer's name.
+        $invoices = Invoice::with('customer')
+            ->when($search, function ($query, $search) {
+                $query->where('invoice_number', 'like', "%{$search}%")
+                      ->orWhereHas('customer', function($q) use ($search) {
+                          $q->where('name', 'like', "%{$search}%");
+                      });
+            })->paginate(10)->withQueryString();
+
+        return Inertia::render('Invoices/Index', [
+            'invoices' => $invoices,
+            'filters' => request()->only(['search'])
+        ]);
     }
 
     /**
@@ -30,7 +44,9 @@ class InvoiceController extends Controller
     public function create()
     {
         $customers = Customer::all();
-        return view('invoices.create', compact('customers'));
+        return Inertia::render('Invoices/Create', [
+            'customers' => $customers
+        ]);
     }
 
     /**
@@ -69,7 +85,10 @@ class InvoiceController extends Controller
     public function edit(Invoice $invoice)
     {
         $customers = Customer::all();
-        return view('invoices.edit', compact('invoice', 'customers'));
+        return Inertia::render('Invoices/Edit', [
+            'invoice' => $invoice,
+            'customers' => $customers
+        ]);
     }
 
 
@@ -171,7 +190,7 @@ class InvoiceController extends Controller
         ]);
         }
 
-        return view('invoices.payment-success');
+        return Inertia::render('Invoices/PaymentSuccess');
     }
 
     /**
