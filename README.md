@@ -56,14 +56,25 @@ Before you begin, ensure you have the following installed on your local machine:
    ```bash
    cp .env.example .env
    ```
-   Open the `.env` file and configure your database credentials (example):
+   Open the `.env` file and configure your application, database, and third-party credentials:
    ```env
+   APP_NAME=CRM_WEB
+   APP_URL=http://127.0.0.1:8000
+   
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
    DB_PORT=3306
    DB_DATABASE=demo_crm_db
    DB_USERNAME=root
    DB_PASSWORD=
+
+   MAIL_MAILER=mailtrap
+   MAILTRAP_TOKEN=
+   MAILTRAP_HOST=sandbox.api.mailtrap.io
+   MAILTRAP_INBOX_ID=
+
+   STRIPE_KEY=
+   STRIPE_SECRET=
    ```
 
 5. **Generate Application Key**
