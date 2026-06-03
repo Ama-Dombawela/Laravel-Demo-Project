@@ -15,7 +15,7 @@ const props = defineProps({
     <DashboardLayout>
         <template #header>
             <div class="mb-4 flex justify-start">
-                <Link href="/proposals" class="nav-pill bg-white text-slate-700 shadow-sm border border-slate-200 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 transition-colors">
+                <Link href="/proposals" class="nav-pill bg-white text-slate-700 shadow-sm border border-slate-200 hover:bg-violet-50 hover:text-violet-700 hover:border-violet-200 transition-colors">
                     <span aria-hidden="true">&larr;</span>
                     <span class="ml-1">Back </span>
                 </Link>
@@ -24,6 +24,7 @@ const props = defineProps({
                 eyebrow="Sales"
                 :title="proposal.title"
                 :description="`Proposal ID: #${proposal.id} • Created on: ${new Date(proposal.created_at).toLocaleDateString()}`"
+                tone="violet"
             />
         </template>
 

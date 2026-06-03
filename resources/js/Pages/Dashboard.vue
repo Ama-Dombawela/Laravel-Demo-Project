@@ -78,36 +78,20 @@ const statTone = {
                     </div>
                 </Card>
 
-                <div class="flex flex-col gap-6">
-                    <!-- Status Panel -->
-                    <Card variant="surface" class="flex flex-col justify-between flex-1">
-                        <div>
-                            <h3 class="section-heading text-lg">Today’s focus</h3>
-                            <p class="section-subtitle">A compact summary of the most important modules in your workspace.</p>
-                        </div>
-
-                        <div class="mt-6 space-y-4">
-                            <div>
-                                <ProgressBar :progress="78" tone="primary" label="Monthly Revenue Target" showValue />
-                            </div>
-                            <div>
-                                <ProgressBar :progress="42" tone="success" label="Proposal Win Rate" showValue />
-                            </div>
-                        </div>
-                    </Card>
-
+                <div class="flex flex-col h-full">
                     <!-- Profile Details Card -->
-                    <Card variant="surface" class="flex flex-col justify-between">
+                    <Card variant="surface" class="flex flex-col justify-center h-full">
                         <div>
                             <h3 class="section-heading text-lg">Your Profile</h3>
+                            <p class="section-subtitle">You are logged in and ready to work.</p>
                         </div>
-                        <div class="mt-4 flex items-center gap-4">
-                            <div class="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-100 to-cyan-100 font-bold text-2xl text-indigo-700 ring-2 ring-white shadow-sm">
+                        <div class="mt-6 flex flex-col items-center text-center sm:flex-row sm:text-left gap-5">
+                            <div class="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-indigo-100 to-cyan-100 font-bold text-3xl text-indigo-700 ring-4 ring-white shadow-md">
                                 {{ page.props.auth.user?.name?.charAt(0) }}
                             </div>
                             <div>
-                                <p class="text-lg font-bold text-slate-900">{{ page.props.auth.user?.name }}</p>
-                                <p class="text-sm font-medium text-slate-500">{{ page.props.auth.user?.email }}</p>
+                                <p class="text-2xl font-bold text-slate-900">{{ page.props.auth.user?.name }}</p>
+                                <p class="text-base font-medium text-slate-500">{{ page.props.auth.user?.email }}</p>
                             </div>
                         </div>
                     </Card>

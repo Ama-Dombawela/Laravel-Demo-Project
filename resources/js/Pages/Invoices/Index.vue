@@ -121,6 +121,7 @@ const deleteInvoice = () => {
                         description="Create an invoice to start tracking customer billing and payment status."
                         action-label="New Invoice"
                         action-href="/invoices/create"
+                        tone="emerald"
                     >
                         <template #icon>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -115,10 +115,11 @@ const deleteCustomer = () => {
 
                 <div v-if="customers.data.length === 0" class="p-6">
                     <EmptyState
-                        title="No customers yet"
-                        description="Create your first customer to start building out the CRM directory."
+                        title="No customers found"
+                        description="Get started by adding your first customer to the system."
                         action-label="Add Customer"
                         action-href="/customers/create"
+                        tone="sky"
                     >
                         <template #icon>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">

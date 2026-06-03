@@ -32,9 +32,7 @@ defineProps({
             <div class="grid gap-8 lg:grid-cols-3">
                 <div class="lg:col-span-1 pt-2">
                     <h3 class="text-lg font-bold text-slate-900">Profile Information</h3>
-                    <p class="mt-2 text-sm text-slate-500 leading-relaxed">
-                        Update your account's profile information and email address. Ensure your email is active.
-                    </p>
+                   
                 </div>
                 <div class="lg:col-span-2">
                     <UpdateProfileInformationForm
@@ -53,9 +51,7 @@ defineProps({
             <div class="grid gap-8 lg:grid-cols-3">
                 <div class="lg:col-span-1 pt-2">
                     <h3 class="text-lg font-bold text-slate-900">Update Password</h3>
-                    <p class="mt-2 text-sm text-slate-500 leading-relaxed">
-                        Ensure your account is using a long, random password to stay secure.
-                    </p>
+                    
                 </div>
                 <div class="lg:col-span-2">
                     <UpdatePasswordForm />
@@ -71,9 +67,7 @@ defineProps({
             <div class="grid gap-8 lg:grid-cols-3">
                 <div class="lg:col-span-1 pt-2">
                     <h3 class="text-lg font-bold text-rose-600">Delete Account</h3>
-                    <p class="mt-2 text-sm text-slate-500 leading-relaxed">
-                        Permanently delete your account. This action cannot be undone.
-                    </p>
+                    
                 </div>
                 <div class="lg:col-span-2">
                     <DeleteUserForm />
