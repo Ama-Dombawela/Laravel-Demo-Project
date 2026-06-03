@@ -1,8 +1,9 @@
 # Modern Laravel CRM Web Application
 
-A premium, full-stack Customer Relationship Management (CRM) web application designed to help businesses manage clients, track proposals, process invoices, and monitor financial transactions through a centralized and intuitive dashboard. 
+CRM Pro is a modern, full-stack Customer Relationship Management (CRM) platform designed to help businesses efficiently manage customers, track proposals, generate invoices, monitor payments, and view transaction histories through a centralized dashboard.
 
-Built with a focus on modern aesthetics (glassmorphism UI, rich micro-animations) and robust performance.
+Built with Laravel, Vue.js, and MySQL, the system provides a seamless and responsive user experience, featuring interactive dashboards, real-time business insights, secure authentication, and a premium, modern interface. The platform streamlines customer relationship management while giving businesses complete visibility into their financial activities and transactions.
+
 
 ## 🌟 Core Features
 
@@ -11,6 +12,7 @@ Built with a focus on modern aesthetics (glassmorphism UI, rich micro-animations
 - **Proposals System:** Create, edit, and track business proposals and bids through their lifecycle.
 - **Invoicing & Billing:** Generate detailed invoices, email them directly to clients, and manage billing statuses.
 - **Secure Payment Processing:** Seamlessly integrated with Stripe to accept and process invoice payments.
+- **Transaction History:** Automatically log and track all successful Stripe payments to maintain an accurate ledger.
 - **Dynamic Dashboard:** A centralized overview featuring key business metrics, recent activities, and quick-action shortcuts.
 
 ## 🛠 Tech Stack
