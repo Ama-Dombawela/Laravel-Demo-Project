@@ -29,7 +29,6 @@ Route::middleware('auth')->group(function () {
 
 //Customers
 Route::resource('customers', CustomerController::class)->middleware('auth');
-Route::patch('customers/{customer}', [CustomerController::class, 'update'])->name('customers.update')->middleware('auth'); // Update customer stats (partial update)
 Route::patch('customers/{customer}/status', [CustomerController::class, 'changeStatus'])->name('customers.changeStatus');
 
 // Proposals
